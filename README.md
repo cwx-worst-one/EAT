@@ -1,4 +1,4 @@
-# EAT:Self-Supervised Pre-Training with Efficient Audio Transformer
+# EAT: Self-Supervised Pre-Training with Efficient Audio Transformer
 ## Introduction 
 
 ## TODO 
