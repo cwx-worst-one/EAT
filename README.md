@@ -10,7 +10,7 @@ Pre-training on AS-2M, EAT gain state-of-the-art (SOTA) performance on several a
 
 
 ## Efficiency
-EAT achieves a total pre-training time reduction of ~15x compared to BEATs$_{iter3}$ and ~10x relative to Audio-MAE. It costs only 10 epochs during EAT's pre-training on AS-2M. 
+EAT achieves a total pre-training time reduction of ~15x compared to BEATs and ~10x relative to Audio-MAE. It costs only 10 epochs during EAT's pre-training on AS-2M. 
 ![Alt text](src/efficiency.png)  
 
 ## Pre-trained and Fine-tuned Models
