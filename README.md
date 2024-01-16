@@ -19,8 +19,8 @@ EAT is an audio SSL model with high effectiveness and efficiency during self-sup
 ## Model Checkpoints
 You could download the EAT checkpoints by Google Drive. 
 - AS-2M [Pre-trained]()
-- AS-20K Pre-trained+[Fine-tuned]()
-- AS-2M Pre-trained+[Fine-tuned]()
+- AS-2M Pre-trained+[Fine-tuned]() (AS-2M)
+- AS-2M Pre-trained+[Fine-tuned]() (AS-20K)
 
 ## Feature Extraction
 We provide the script for extracting audio features from the last layer of EAT encoder. The features are stored in `.npy` format and the sample rate of the extracted features is ~50Hz.   
