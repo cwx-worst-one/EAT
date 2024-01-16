@@ -1,5 +1,8 @@
 # EAT
-
+[![Platform](https://img.shields.io/badge/Platform-linux-lightgrey)](https://github.com/cwx-worst-one/EAT)
+[![Python](https://img.shields.io/badge/Python-3.8+-orange)](https://github.com/cwx-worst-one/EAT)
+[![Pytorch](https://img.shields.io/badge/PyTorch-1.13+-brightgreen)](https://github.com/cwx-worst-one/EAT)
+[![License](https://img.shields.io/badge/License-MIT-red.svg)](https://github.com/cwx-worst-one/EAT)
 
 ## Introduction 
 EAT is an audio SSL model with high effectiveness and efficiency in pre-training. Adopting the bootstrap paradigm, we propose the Utterance-Frame Objective (UFO) and adapt the inverse block masking on audio patches during its self-supervised training. You can find details in the paper [EAT: Self-Supervised Pre-Training with Efficient Audio Transformer](https://arxiv.org/abs/2401.03497). 
