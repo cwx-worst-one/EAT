@@ -3,17 +3,37 @@
 [![Platform](https://img.shields.io/badge/Platform-linux-lightgrey)](https://github.com/cwx-worst-one/EAT)
 [![Python](https://img.shields.io/badge/Python-3.8+-orange)](https://github.com/cwx-worst-one/EAT)
 [![Pytorch](https://img.shields.io/badge/PyTorch-1.13+-brightgreen)](https://github.com/cwx-worst-one/EAT)
+[![fairseq](https://img.shields.io/badge/fairseq-0.12.2-blue)](https://github.com/cwx-worst-one/EAT)
 [![License](https://img.shields.io/badge/License-MIT-red.svg)](https://github.com/cwx-worst-one/EAT)
 
 **Guides**
-- [Models](#models)
+- [Model Checkpoints](#model-checkpoints)
 - [Feature Extraction](#feature-extraction)
-- [Pre-training](#pre-training)
-- [Fine-tuning](#fine-tuning)
+- [Pre-Training](#pre-training)
+- [Fine-Tuning](#fine-tuning)
 
 <!-- omit in toc -->
 ## Introduction 
-EAT is an audio SSL model with high effectiveness and efficiency in pre-training. Adopting the bootstrap paradigm, we propose the Utterance-Frame Objective (UFO) and adapt the inverse block masking on audio patches during its self-supervised training. You can find details in the paper [EAT: Self-Supervised Pre-Training with Efficient Audio Transformer](https://arxiv.org/abs/2401.03497). 
+EAT is an audio SSL model with high effectiveness and efficiency during self-supervised pre-training. You can find details in the paper [EAT: Self-Supervised Pre-Training with Efficient Audio Transformer](https://arxiv.org/abs/2401.03497). 
+
+## Model Checkpoints
+You could download the EAT checkpoints by Google Drive. 
+- AS-2M [Pre-trained]()
+- AS-20K Pre-trained+[Fine-tuned]()
+- AS-2M Pre-trained+[Fine-tuned]()
+
+## Feature Extraction
+We provide the script for extracting audio features from the last layer of EAT encoder. The features are stored in `.npy` format and the sample rate of the extracted features is ~50Hz.   
+To extract latent representations from audio clips, you could use our pre-trained [checkpoint]() or your owns, then please run the script `feature_extract.sh` by:
+```bash
+bash feature_extract.sh 
+``` 
+
+## Pre-Training 
+TODO
+
+## Fine-Tuning
+TODO
 
 <!-- omit in toc -->
 ## Performance
@@ -26,29 +46,21 @@ EAT achieves a total pre-training time reduction of ~15x compared to BEATs and ~
 ![Alt text](src/efficiency.png)  
 
 
-## Models
-TODO
 
-## Feature Extraction
-TODO
-
-## Pre-training 
-TODO
-
-## Fine-tuning
-TODO
 
 
 <!-- omit in toc -->
 ## TODO 
-- [ ] release the main pre-trained codes and pre-trained EAT model
-- [ ] release the fine-tuned codes and fine-tuned EAT models (in AS tasks)
+- [x] release the feature extraction codes
+- [ ] release the model checkpoints for pre-training and fine-tuning
+- [ ] release the main pre-trained codes
+- [ ] release the fine-tuned codes
 - [ ] release the inferrence codes 
 
 
 <!-- omit in toc -->
 ## Citation
-If you find our EAT code and paper useful, please cite:
+If you find our EAT code and paper useful, please cite the following paper:
 ```
 @article{chen2024eat,
   title={EAT: Self-Supervised Pre-Training with Efficient Audio Transformer},
