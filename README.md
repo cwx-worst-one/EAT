@@ -80,7 +80,7 @@ EAT achieves a total pre-training time reduction of ~15x compared to BEATs and ~
 
 <!-- omit in toc -->
 ## Citation
-If you find our EAT code and paper useful, please cite the following paper:
+If you find our EAT codes and models useful, please cite the following paper:
 ```
 @article{chen2024eat,
   title={EAT: Self-Supervised Pre-Training with Efficient Audio Transformer},
