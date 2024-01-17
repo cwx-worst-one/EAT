@@ -21,8 +21,8 @@ EAT is an audio SSL model with high effectiveness and efficiency during self-sup
 ## Model Checkpoints
 You could download the EAT checkpoints by Google Drive. 
 - AS-2M [Pre-trained](https://drive.google.com/file/d/1PFUcDbvtZfxFcyaRv3RHsjy_QhvC1QBp/view?usp=sharing)
-- AS-2M Pre-trained+[Fine-tuned]() (AS-2M)
-- AS-2M Pre-trained+[Fine-tuned]() (AS-20K)
+- AS-2M Pre-trained+[Fine-tuned](https://drive.google.com/file/d/1FNZ4LotG-VLRwrQJacsQyKQZnEah4i4w/view?usp=sharing) (AS-2M)
+- AS-2M Pre-trained+[Fine-tuned](https://drive.google.com/file/d/1TyRG2xczQ6rvnkvEn0p2A-KbgSPKxcEI/view?usp=drive_link) (AS-20K)
 
 ## Feature Extraction
 We provide the script for extracting audio features from the last layer of EAT encoder. The features are stored in `.npy` format and the sample rate of the extracted features is ~50Hz. EAT could provide frame-level features and utterance-level features (denoted by the CLS token).  
@@ -41,7 +41,7 @@ TODO
 TODO
 
 ## Inference 
-
+TODO
 
 <!-- omit in toc -->
 ## Performance
@@ -60,10 +60,10 @@ EAT achieves a total pre-training time reduction of ~15x compared to BEATs and ~
 <!-- omit in toc -->
 ## TODO 
 - [x] release the feature extraction codes
-- [ ] release the model checkpoints for pre-training and fine-tuning
-- [ ] release the main pre-trained codes
-- [ ] release the fine-tuned codes
+- [x] release the model checkpoints for pre-training and fine-tuning
 - [ ] release the inferrence codes 
+- [ ] release the pre-trained codes
+- [ ] release the fine-tuned codes
 
 
 <!-- omit in toc -->
