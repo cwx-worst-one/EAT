@@ -74,15 +74,19 @@ def main():
     with torch.no_grad():
         try:
             source = source.unsqueeze(dim=0) #btz=1
-            feats = model.extract_features(source, padding_mask=None)
-            feats = feats['x'].squeeze(0).cpu().numpy()
+            
             if granularity == 'frame':
-                feats = feats
+                feats = model.extract_features(source, padding_mask=None,mask=False, remove_extra_tokens=True)
+                feats = feats['x'].squeeze(0).cpu().numpy()
+            
             elif granularity == 'utterance':
-                feats = np.mean(feats, axis=0)
+                feats = model.extract_features(source, padding_mask=None,mask=False, remove_extra_tokens=False)
+                feats = feats['x']
+                feats = feats[:, 0].squeeze(0).cpu().numpy()
             else:
                 raise ValueError("Unknown granularity: {}".format(args.granularity))
             np.save(target_file, feats)
+            print("Successfully saved")
         except:
             print("Error in extracting features from {}".format(source_file))
             Exception("Error in extracting features from {}".format(source_file))
