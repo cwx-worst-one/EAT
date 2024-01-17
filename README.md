@@ -41,7 +41,19 @@ TODO
 TODO
 
 ## Inference 
-TODO
+For inference on AudioSet audio clips with fine-tuned models, you could use our EAT checkpoints fine-tuning on [AS-2M]() or [AS-20K]()
+and run the script `inference.sh` by: 
+```bash
+bash inference.sh 
+``` 
+An example output is as follows:
+```python
+# top_k_prediction = 12
+{'Percussion': 0.5227, 'Drum kit': 0.4365, 'Vibraphone': 0.4196, 'Drum': 0.3161, 
+'Music': 0.3035, 'Snare drum': 0.2766, 'Glockenspiel': 0.2248, 'Marimba, xylophone': 0.223, 
+'Cymbal': 0.213, 'Bass drum': 0.2069, 'Hi-hat': 0.1961, 'Mallet percussion': 0.1704}
+```
+
 
 <!-- omit in toc -->
 ## Performance
@@ -61,7 +73,7 @@ EAT achieves a total pre-training time reduction of ~15x compared to BEATs and ~
 ## TODO 
 - [x] release the feature extraction codes
 - [x] release the model checkpoints for pre-training and fine-tuning
-- [ ] release the inferrence codes 
+- [x] release the inferrence codes 
 - [ ] release the pre-trained codes
 - [ ] release the fine-tuned codes
 
