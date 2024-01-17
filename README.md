@@ -9,8 +9,10 @@
 **Guides**
 - [Model Checkpoints](#model-checkpoints)
 - [Feature Extraction](#feature-extraction)
+- [Data Preparation](#data-preparation)
 - [Pre-Training](#pre-training)
 - [Fine-Tuning](#fine-tuning)
+- [Inference](#inference)
 
 <!-- omit in toc -->
 ## Introduction 
@@ -29,11 +31,17 @@ To extract latent representations from audio clips, you could use our pre-traine
 bash feature_extract.sh 
 ``` 
 
+## Data Preparation
+The main dataset in our experiment is [AudioSet](https://research.google.com/audioset/). Data manifest is available at [here](). We follow the file format in [wav2vec](https://github.com/facebookresearch/fairseq/tree/main/examples/wav2vec) and [data2vec](https://github.com/facebookresearch/fairseq/tree/main/examples/data2vec), where `.tsv` format file is for index while `.lbl` and `.csv` format files are specific for classification task.  You could modify the files for your own database. 
+
 ## Pre-Training 
 TODO
 
 ## Fine-Tuning
 TODO
+
+## Inference 
+
 
 <!-- omit in toc -->
 ## Performance
