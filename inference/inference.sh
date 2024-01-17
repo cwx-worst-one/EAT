@@ -1,6 +1,5 @@
 #!/bin/bash
-export CUDA_VISIBLE_DEVICES=7
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/hpc_stor03/sjtu_home/wenxi.chen/miniconda3/lib
+export CUDA_VISIBLE_DEVICES=0
 
 python inference.py  \
     --source_file='/hpc_stor03/sjtu_home/wenxi.chen/EAT/inference/test.wav' \
