@@ -14,6 +14,13 @@
 - [Fine-Tuning](#fine-tuning)
 - [Inference](#inference)
 
+
+<!-- omit in toc -->
+## News :new:
+- We release the paper [EAT: Self-Supervised Pre-Training with Efficient Audio Transformer](https://arxiv.org/abs/2401.03497). 
+- We release the pre-trained and fine-tuned model checkpoints. 
+- We release the codes for audio feature extraction and audio classification inference (for AudioSet). 
+
 <!-- omit in toc -->
 ## Introduction 
 EAT is an audio SSL model with high effectiveness and efficiency during self-supervised pre-training. You can find details in the paper [EAT: Self-Supervised Pre-Training with Efficient Audio Transformer](https://arxiv.org/abs/2401.03497). 
@@ -28,23 +35,23 @@ You could download the EAT checkpoints by Google Drive.
 We provide the script for extracting audio features from the last layer of EAT encoder. The features are stored in `.npy` format and the sample rate of the extracted features is ~50Hz. EAT could provide frame-level features and utterance-level features (denoted by the CLS token).  
 To extract latent representations from audio clips, you could use our pre-trained [checkpoint](https://drive.google.com/file/d/1PFUcDbvtZfxFcyaRv3RHsjy_QhvC1QBp/view?usp=sharing) or your owns, then please run the script `feature_extract.sh` by:
 ```bash
-bash feature_extract.sh 
+bash feature_extract/feature_extract.sh 
 ``` 
 
 ## Data Preparation
 The main dataset in our experiment is [AudioSet](https://research.google.com/audioset/). Data manifest is available at [here](). We follow the file format in [wav2vec](https://github.com/facebookresearch/fairseq/tree/main/examples/wav2vec) and [data2vec](https://github.com/facebookresearch/fairseq/tree/main/examples/data2vec), where `.tsv` format file is for index while `.lbl` and `.csv` format files are specific for classification task.  You could modify the files for your own database. 
 
 ## Pre-Training 
-TODO
+To be released.
 
 ## Fine-Tuning
-TODO
+To be released.
 
 ## Inference 
 For inference on AudioSet audio clips with fine-tuned models, you could use our EAT checkpoints fine-tuning on [AS-2M](https://drive.google.com/file/d/1FNZ4LotG-VLRwrQJacsQyKQZnEah4i4w/view?usp=sharing) or [AS-20K](https://drive.google.com/file/d/1TyRG2xczQ6rvnkvEn0p2A-KbgSPKxcEI/view?usp=drive_link)
 and run the script `inference.sh` by: 
 ```bash
-bash inference.sh 
+bash inference/inference.sh 
 ``` 
 An example output is as follows:
 ```python
