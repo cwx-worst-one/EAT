@@ -17,9 +17,8 @@
 
 <!-- omit in toc -->
 ## News :new:
-- We release the paper [EAT: Self-Supervised Pre-Training with Efficient Audio Transformer](https://arxiv.org/abs/2401.03497). 
-- We release the pre-trained and fine-tuned model checkpoints. 
-- We release the codes for audio feature extraction and audio classification inference (for AudioSet). 
+- We release the [paper ](https://arxiv.org/abs/2401.03497) and EAT model checkpoints. 
+- We release the codes for audio features extraction and audio classification inference (on AudioSet). 
 
 <!-- omit in toc -->
 ## Introduction 
