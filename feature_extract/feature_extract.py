@@ -8,6 +8,7 @@ import torch.nn.functional as F
 import fairseq
 import torchaudio
 
+# global normalization for AudioSet as default (norm_mean=-4.268 && norm_std=4.569)
 def get_parser():
     parser = argparse.ArgumentParser(
         description="extract EAT features for downstream tasks"
@@ -18,7 +19,9 @@ def get_parser():
     parser.add_argument('--checkpoint_dir', type=str, help='checkpoint for pre-trained model', required=True)
     parser.add_argument('--granularity', type=str, help='which granularity to use, frame or utterance', required=True)
     parser.add_argument('--target_length', type=int, help='the target length of Mel spectrogram in time dimension', required=True)
-
+    parser.add_argument('--norm_mean', type=float, help='mean value for normalization', default=-4.268)
+    parser.add_argument('--norm_std', type=float, help='standard deviation for normalization', default=4.569)
+    
     return parser
 
 @dataclass
@@ -36,6 +39,8 @@ def main():
     checkpoint_dir = args.checkpoint_dir
     granularity = args.granularity
     target_length = args.target_length
+    norm_mean = args.norm_mean
+    norm_std = args.norm_std
 
     model_path = UserDirModule(model_dir)
     fairseq.utils.import_user_module(model_path)
@@ -70,7 +75,8 @@ def main():
     elif diff < 0:
         source = source[0:target_length, :]
                 
-    # fixme: here the global norm is omitted, is it necessary?
+    source = (source - norm_mean) / (norm_std * 2)
+        
     with torch.no_grad():
         try:
             source = source.unsqueeze(dim=0) #btz=1

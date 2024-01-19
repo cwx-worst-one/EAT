@@ -9,6 +9,7 @@ import fairseq
 import torchaudio
 import csv
 
+# global normalization for AudioSet as default (norm_mean=-4.268 && norm_std=4.569)
 def get_parser():
     parser = argparse.ArgumentParser(
         description="extract EAT features for downstream tasks"
@@ -19,6 +20,8 @@ def get_parser():
     parser.add_argument('--checkpoint_dir', type=str, help='checkpoint for fine-tuned model', required=True)
     parser.add_argument('--target_length', type=int, help='the target length of Mel spectrogram in time dimension', required=True)
     parser.add_argument('--top_k_prediction', type=int, help='the number of top k classes prediction in inference', required=True)
+    parser.add_argument('--norm_mean', type=float, help='mean value for normalization', default=-4.268)
+    parser.add_argument('--norm_std', type=float, help='standard deviation for normalization', default=4.569)
 
     return parser
 
@@ -50,6 +53,8 @@ def main():
     checkpoint_dir = args.checkpoint_dir
     target_length = args.target_length
     top_k_prediction = args.top_k_prediction
+    norm_mean = args.norm_mean
+    norm_std = args.norm_std
 
     vocab = build_dictionary(label_file)
     model_path = UserDirModule(model_dir)
@@ -85,9 +90,6 @@ def main():
     elif diff < 0:
         source = source[0:target_length, :]
                 
-    # global normalization for AudioSet
-    norm_mean = -4.268 
-    norm_std = 4.569
     source = (source - norm_mean) / (norm_std * 2)
     
     with torch.no_grad():
