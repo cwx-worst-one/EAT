@@ -7,6 +7,7 @@
 [![License](https://img.shields.io/badge/License-MIT-red.svg)](https://github.com/cwx-worst-one/EAT)
 
 **Guides**
+- [Requirements and Installation](#requirements-and-installation)
 - [Model Checkpoints](#model-checkpoints)
 - [Feature Extraction](#feature-extraction)
 - [Data Preparation](#data-preparation)
@@ -24,6 +25,14 @@
 ## Introduction 
 EAT is an audio SSL model with high effectiveness and efficiency during self-supervised pre-training. You can find details in the paper [EAT: Self-Supervised Pre-Training with Efficient Audio Transformer](https://arxiv.org/abs/2401.03497). 
 
+## Requirements and Installation
+```shell 
+git clone https://github.com/pytorch/fairseq
+cd fairseq
+pip install --editable ./
+git clone https://github.com/cwx-worst-one/EAT
+```
+
 ## Model Checkpoints
 You could download the EAT checkpoints by Google Drive. 
 - AS-2M [Pre-trained](https://drive.google.com/file/d/1PFUcDbvtZfxFcyaRv3RHsjy_QhvC1QBp/view?usp=sharing)
@@ -34,7 +43,7 @@ You could download the EAT checkpoints by Google Drive.
 We provide the script for extracting audio features from the last layer of EAT encoder. The features are stored in `.npy` format and the sample rate of the extracted features is ~50Hz. EAT could provide frame-level features and utterance-level features (denoted by the CLS token).  
 To extract latent representations from audio clips, you could use our pre-trained [checkpoint](https://drive.google.com/file/d/1PFUcDbvtZfxFcyaRv3RHsjy_QhvC1QBp/view?usp=sharing) or your owns, then please run the script `feature_extract.sh` by:
 ```bash
-bash feature_extract/feature_extract.sh 
+bash EAT/feature_extract/feature_extract.sh 
 ``` 
 
 ## Data Preparation
@@ -50,7 +59,7 @@ To be released.
 For inference on AudioSet audio clips with fine-tuned models, you could use our EAT checkpoints fine-tuning on [AS-2M](https://drive.google.com/file/d/1FNZ4LotG-VLRwrQJacsQyKQZnEah4i4w/view?usp=sharing) or [AS-20K](https://drive.google.com/file/d/1TyRG2xczQ6rvnkvEn0p2A-KbgSPKxcEI/view?usp=drive_link)
 and run the script `inference.sh` by: 
 ```bash
-bash inference/inference.sh 
+bash EAT/inference/inference.sh 
 ``` 
 An example output is as follows:
 ```python

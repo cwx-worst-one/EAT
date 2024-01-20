@@ -15,7 +15,7 @@ def get_parser():
         description="extract EAT features for downstream tasks"
     )
     parser.add_argument('--source_file', help='location of source wav files', required=True)
-    parser.add_argument('--label_file', help='location of target npy files', required=True)
+    parser.add_argument('--label_file', help='location of label files', required=True)
     parser.add_argument('--model_dir', type=str, help='pretrained model', required=True)
     parser.add_argument('--checkpoint_dir', type=str, help='checkpoint for fine-tuned model', required=True)
     parser.add_argument('--target_length', type=int, help='the target length of Mel spectrogram in time dimension', required=True)
