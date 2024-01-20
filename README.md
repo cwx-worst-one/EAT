@@ -1,5 +1,5 @@
 <!-- omit in toc -->
-# EAT
+# EAT: Self-Supervised Pre-Training with Efficient Audio Transformer
 [![Platform](https://img.shields.io/badge/Platform-linux-lightgrey)](https://github.com/cwx-worst-one/EAT)
 [![Python](https://img.shields.io/badge/Python-3.8+-orange)](https://github.com/cwx-worst-one/EAT)
 [![Pytorch](https://img.shields.io/badge/PyTorch-1.13+-brightgreen)](https://github.com/cwx-worst-one/EAT)
@@ -78,7 +78,7 @@ Pre-training on AS-2M, EAT gains state-of-the-art (SOTA) performance on several 
 <!-- omit in toc -->
 ## Efficiency
 EAT achieves a total pre-training time reduction of ~15x compared to BEATs and ~10x relative to Audio-MAE. It costs only 10 epochs during EAT's pre-training on AS-2M. 
-![Alt text](src/efficiency.png)  
+![](src/efficiency.png)  
 
 
 
