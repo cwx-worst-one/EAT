@@ -26,6 +26,7 @@ task:
   audio_mae: true
   h5_format: false
   target_length: 1024
+  flexible_mask: false
 
 dataset:
   num_workers: 10
