@@ -1,4 +1,5 @@
 #!/bin/bash
+
 export CUDA_VISIBLE_DEVICES=0,1,2,3
 
 python fairseq_cli/hydra_train.py -m \

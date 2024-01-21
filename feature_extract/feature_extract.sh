@@ -1,4 +1,5 @@
 #!/bin/bash
+
 export CUDA_VISIBLE_DEVICES=0
 
 python EAT/feature_extract/feature_extract.py  \
