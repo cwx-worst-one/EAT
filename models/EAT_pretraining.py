@@ -16,7 +16,6 @@ from typing import Optional, Callable
 from functools import partial
 from omegaconf import II
 from enum import Enum, auto
-
 from fairseq.modules import EMAModule, EMAModuleConfig
 from fairseq.dataclass import FairseqDataclass
 from fairseq.models import BaseFairseqModel, register_model

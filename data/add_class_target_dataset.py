@@ -5,9 +5,9 @@
 
 import torch
 
-from fairseq.data import BaseWrapperDataset, data_utils
+from fairseq.data import BaseWrapperDataset
 
-
+# add labels for audio clips in fine-tuning
 class AddClassTargetDataset(BaseWrapperDataset):
     def __init__(
         self,

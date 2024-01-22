@@ -1,0 +1,91 @@
+# @package _group_
+
+common:
+  fp16: true
+  log_format: json
+  log_interval: 200
+  tensorboard_logdir: tb
+  fp16_no_flatten_grads: true
+
+checkpoint:
+  save_interval: 1
+  save_interval_updates: 10000
+  keep_interval_updates: 1
+  no_epoch_checkpoints: true
+  best_checkpoint_metric: accuracy
+  maximize_best_checkpoint_metric: true
+
+task:
+  _name: mae_image_classification
+  data: /hpc_stor03/sjtu_home/wenxi.chen/mydata/audio/unbalanced_finetune
+  downsr_16hz: true
+  audio_mae: true
+  target_length: 1024
+  roll_aug: false
+  noise: false
+  h5_format: false
+  weights_file: /hpc_stor03/sjtu_home/wenxi.chen/mydata/audio/unbalanced_finetune/weight_train_all.csv
+  num_samples: 200000
+  
+  AS2M_finetune: false
+  spcv1_finetune: false
+  spcv2_eval: false
+  esc50_eval: false
+
+
+dataset:
+  num_workers: 6
+  batch_size: 96
+  skip_invalid_size_inputs_valid_test: true
+  required_batch_size_multiple: 2
+  train_subset: train
+  valid_subset: eval
+
+distributed_training:
+  distributed_world_size: 1
+  ddp_backend: c10d
+
+criterion:
+  _name: model
+  log_keys:
+    - _predictions
+    - _targets
+
+optimization:
+  max_update: 300000
+  lr: [0.00005]
+
+optimizer:
+  _name: composite
+  dynamic_groups: true
+  groups:
+    default:
+      lr_float: 0.00005
+      optimizer:
+        _name: adam
+        adam_betas: [0.9,0.95]
+        weight_decay: 0.05
+      lr_scheduler:
+        _name: cosine
+        warmup_updates: 30000
+        min_lr: 1e-6
+
+
+lr_scheduler: pass_through
+
+model:
+  _name: mae_image_classification
+  mixup: 0.7
+  mixup_prob: 0.9
+  model_path: /hpc_stor03/sjtu_home/wenxi.chen/model_ckpt/EAT/checkpoint10.pt
+  audio_mae: true
+  num_classes: 527
+  specaug: true
+  mask_ratio: 0.2
+  prediction_mode: PredictionMode.CLS_TOKEN
+
+  spcv2_eval: false
+  esc50_eval: false
+  target_length: 1024
+
+  label_smoothing: 0.0

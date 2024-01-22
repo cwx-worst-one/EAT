@@ -36,7 +36,6 @@ class MaeImageClassificationConfig(MaeImagePretrainingConfig):
     rebuild_batches: bool = True
     label_descriptors: str = "label_descriptors.csv"
     labels: str = "lbl"
-    mixup:bool = field(default=False, metadata={"help": "if true, we will use mixup in finetuning"})
 
 
 @register_task("mae_image_classification", dataclass=MaeImageClassificationConfig)
@@ -95,8 +94,6 @@ class MaeImageClassificationTask(MaeImagePretrainingTask):
         with open(label_path, "r") as f:
             for i, line in enumerate(f):
                 if i not in skipped_indices:
-                    # lbl_items = line.rstrip().split(" ")
-                    # lbl_items = line.rstrip().split("\t")
                     lbl_items = line.rstrip().split()
                     labels.append([self.state.labels[x] for x in lbl_items[1].split(",")])
 

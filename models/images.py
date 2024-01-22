@@ -7,13 +7,15 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
+
 from functools import partial
 from dataclasses import dataclass
 from typing import Callable, Dict, Optional
 from timm.models.layers import to_2tuple
 from fairseq.tasks import FairseqTask
-from .mae import PatchEmbed,get_2d_sincos_pos_embed_flexible
 from enum import Enum, auto
+
+from .mae import PatchEmbed,get_2d_sincos_pos_embed_flexible
 
 
 from .base import (

@@ -7,16 +7,14 @@
 # https://github.com/microsoft/unilm/tree/master/beit
 
 import logging
-from dataclasses import dataclass
-from functools import partial
-
-from timm.models.vision_transformer import PatchEmbed, Block
-
 import torch
 import torch.nn as nn
-
+import torch.nn.functional as F
 import numpy as np
 
+from dataclasses import dataclass
+from functools import partial
+from timm.models.vision_transformer import PatchEmbed, Block
 from fairseq.dataclass import FairseqDataclass
 from fairseq.models import BaseFairseqModel, register_model
 from fairseq.models.wav2vec.wav2vec2 import TransformerSentenceEncoderLayer
@@ -26,7 +24,6 @@ try:
 except:
     FusedLayerNorm = nn.LayerNorm
 
-import torch.nn.functional as F
 
 
 logger = logging.getLogger(__name__)

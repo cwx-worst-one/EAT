@@ -5,10 +5,11 @@
 
 import logging
 import math
-import numpy as np
 import torch
+import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
+
 from collections import namedtuple
 from dataclasses import dataclass
 from functools import partial
@@ -17,11 +18,17 @@ from typing import Optional, Callable
 from fairseq.data.data_utils import compute_mask_indices
 from fairseq.modules import GradMultiply
 from fairseq.utils import index_put
-from examples.data2vec.data.modality import Modality
+from enum import Enum, auto
+
 from .modules import D2vDecoderConfig
+
 
 logger = logging.getLogger(__name__)
 
+class Modality(Enum):
+    AUDIO = auto()
+    IMAGE = auto()
+    TEXT = auto()
 
 @dataclass
 class D2vModalityConfig:

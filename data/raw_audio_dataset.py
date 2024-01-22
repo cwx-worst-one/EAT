@@ -390,10 +390,12 @@ class FileAudioDataset(RawAudioDataset):
             curr_sample_rate = 16000
             self.sample_rate = curr_sample_rate
             
+        # whether to use roll augmentation on waveform
         use_roll = self.roll_mag_aug and self.train_mode == 'train'
         
         feats = self.postprocess(feats, curr_sample_rate, use_roll)
 
+        # convert waveform to spectrogram
         if self.wav2fbank:
             feats = feats.unsqueeze(dim=0)
             feats = torchaudio.compliance.kaldi.fbank(feats, htk_compat=True, sample_frequency=curr_sample_rate, use_energy=False,

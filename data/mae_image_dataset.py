@@ -190,6 +190,7 @@ class MaeImageDataset(FairseqDataset):
         if target is not None:
             v["target"] = target
 
+        # inverse block mask on audio patches
         if self.is_compute_mask:
             if self.mask_length == 1:
                 mask = compute_block_mask_1d(

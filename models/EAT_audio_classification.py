@@ -7,44 +7,42 @@
 # https://github.com/microsoft/unilm/tree/master/beit
 
 import logging
+import torch
+import torchaudio
+import numpy as np
+import torch.nn as nn
+import torch.nn.functional as F
 
 from dataclasses import dataclass,field
 from enum import Enum, auto
 from typing import Any, Optional
-
-import numpy as np
 from omegaconf import II, MISSING
-
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-
 from fairseq import checkpoint_utils, tasks
 from omegaconf import open_dict
-
 from fairseq.dataclass import FairseqDataclass
 from fairseq.models import BaseFairseqModel, register_model
-from .mae import interpolate_pos_embed
 from fairseq.tasks import FairseqTask
-import torchaudio
+
+from .mae import interpolate_pos_embed
 from .mae import get_2d_sincos_pos_embed_flexible
 
 logger = logging.getLogger(__name__)
 
 
+# EAT utilize cls token for prediction in most downstream tasks
 class PredictionMode(Enum):
     MEAN_POOLING = auto()
     CLS_TOKEN = auto()
     LIN_SOFTMAX = auto()
 
-
+# we follow the work of data2vec 2.0 on image modality and Audio-MAE in EAT 
 @dataclass
 class MaeImageClassificationConfig(FairseqDataclass):
     model_path: str = MISSING
     no_pretrained_weights: bool = False
     linear_classifier: bool = False
     num_classes: int = 1000
-    mixup: float = 0.0   # note: 改变了原来做图像的 mixup 参数 (cutmix,switch_prob)
+    mixup: float = 0.0
     cutmix: float = 0.0
     label_smoothing: float = 0.0
 
@@ -74,23 +72,22 @@ class MaeImageClassificationConfig(FairseqDataclass):
     prenet_dropout: float = 0
 
     use_fc_norm: bool = True
-    prediction_mode: PredictionMode = PredictionMode.MEAN_POOLING
+    prediction_mode: PredictionMode = PredictionMode.CLS_TOKEN
 
     no_decay_blocks: bool = True
+
+    # settings for specific downstream task
     audio_mae: bool = field(default=False, metadata={"help": "if true, the task is to realize audio classification"})
     esc50_eval: bool = field(default=False, metadata={"help": "if true, the task is to finetune model on esc50 dataset"})
     spcv2_eval: bool = field(default=False, metadata={"help": "if true, the task is to finetune model on speech command v2 dataset"})
-    
+    target_length: int = field(default=1024,metadata={"help": "This setting will pad the input sequence will zeros."})
 
+    # specaug for specific downstream task
     specaug: bool = field(default=False, metadata={"help": "if true, use the specaug technique (frame and frequency masked 30%)"})
-    freqm: int = field(default=48, metadata={"help": "the mask ratio of frequency by default"})
-    timem: int = field(default=192, metadata={"help": "the mask ratio of time by default"})
+    freqm: int = field(default=48, metadata={"help": "the mask ratio of frequency dimension in audio spectrogram by default"})
+    timem: int = field(default=192, metadata={"help": "the mask ratio of time dimension in audio spectrogram by default"})
     mask_ratio: float = field(default=0.0, metadata={"help": "the mask ratio of both time and freq "})
     
-    target_length: int = field(default=1024,metadata={"help": "This setting will pad the input sequence will zeros."})
-    
-    
-
 
 def get_layer_id_for_vit(name, num_layers):
     """
@@ -108,7 +105,7 @@ def get_layer_id_for_vit(name, num_layers):
     else:
         return num_layers
 
-# todo: 搞清楚这里的 load 具体做法，teacher model 到底有没有通过 ema 进行了初始化 
+
 @register_model("mae_image_classification", dataclass=MaeImageClassificationConfig)
 class MaeImageClassificationModel(BaseFairseqModel):
     def __init__(self, cfg: MaeImageClassificationConfig):
@@ -117,7 +114,9 @@ class MaeImageClassificationModel(BaseFairseqModel):
         self.audio_mae = self.cfg.audio_mae
         self.esc50_eval = self.cfg.esc50_eval
         self.spcv2_eval = self.cfg.spcv2_eval
+        self.target_length = self.cfg.target_length
 
+        # adjust pre-training config into fine-tuning 
         if cfg.pretrained_model_args is None:
             state = checkpoint_utils.load_checkpoint_to_cpu(cfg.model_path, {})
             pretrained_args = state.get("cfg", None)
@@ -202,6 +201,7 @@ class MaeImageClassificationModel(BaseFairseqModel):
 
         self.model = model
 
+        # adjust position embedding for specific downstream task (due to different fixed clip length) 
         if state is not None and not cfg.no_pretrained_weights:
             interpolate_pos_embed(model, state)
 
@@ -263,8 +263,9 @@ class MaeImageClassificationModel(BaseFairseqModel):
         self.specaug = cfg.specaug
         self.mask_ratio = cfg.mask_ratio
 
+        # spectrogram mixup for fine-tuning
         if cfg.mixup > 0 or cfg.cutmix > 0:
-            from timm.data import Mixup
+            from ..utils.mixup import Mixup
 
             self.mixup_fn = Mixup(
                 mixup_alpha=cfg.mixup,
@@ -277,16 +278,16 @@ class MaeImageClassificationModel(BaseFairseqModel):
                 num_classes=cfg.num_classes,
             )
             
-        # note: 加入语音增强
+        # specaug for fine-tuning, you could set mask_ratio = 0 to setup specific freqm and timem
         if self.specaug:
             self.freqm = cfg.freqm
             self.timem = cfg.timem
             
             if self.mask_ratio != 0.0:
                 self.freqm = 128 * self.mask_ratio
-                self.timem = 1024 * self.mask_ratio
+                self.timem = self.target_length * self.mask_ratio
             
-
+        # group optimizer initialization with layer decay
         if self.model.norm is not None:
             for pn, p in self.model.norm.named_parameters():
                 if len(p.shape) == 1 or pn.endswith(".bias"):
@@ -370,7 +371,6 @@ class MaeImageClassificationModel(BaseFairseqModel):
         if self.training and self.mixup_fn is not None and labels is not None: 
             imgs, labels = self.mixup_fn(imgs, labels)
             
-        # note: spec 的 ratio 没有按照 audio mae 那里的来，感觉有点怪
         if self.training and self.specaug:
             imgs = self.spectrogram_augment(imgs)
 
@@ -380,6 +380,7 @@ class MaeImageClassificationModel(BaseFairseqModel):
         else:
             x = self.model_forward(imgs)
 
+        # different prediction mode
         if self.cfg.prediction_mode == PredictionMode.MEAN_POOLING:
             x = x.mean(dim=1)
         elif self.cfg.prediction_mode == PredictionMode.CLS_TOKEN:
@@ -395,6 +396,7 @@ class MaeImageClassificationModel(BaseFairseqModel):
         else:
             raise Exception(f"unknown prediction mode {self.cfg.prediction_mode.name}")
 
+        # layer norm and project
         if self.fc_norm is not None:
             x = self.fc_norm(x)
 
@@ -405,8 +407,7 @@ class MaeImageClassificationModel(BaseFairseqModel):
         
         x = torch.nan_to_num(x)
         
-
-        # esc50 or AS 
+        # logs for different downstream task    ESC-50 && SPC-2 -> single label    AS (AS2M,AS20K) -> multilabel
         if not self.audio_mae or (self.audio_mae and (self.esc50_eval or self.spcv2_eval )):
             if self.training and self.mixup_fn is not None and not self.spcv2_eval:
                 loss = -labels * F.log_softmax(x.float(), dim=-1)
@@ -473,7 +474,7 @@ class MaeImageClassificationModel(BaseFairseqModel):
                 x = x[:, 1:]
         return x
 
-
+    # specaug
     def spectrogram_augment(self,spec):
         freq_masking = torchaudio.transforms.FrequencyMasking(self.freqm,iid_masks=True)
         time_masking = torchaudio.transforms.TimeMasking(self.timem,iid_masks=True)
