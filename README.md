@@ -29,7 +29,7 @@ EAT is an audio SSL model with high effectiveness and efficiency during self-sup
 To run the EAT code, you have two options for setting up your environment: manual setup or using our Docker image.
 
 <!-- omit in toc -->
-##### Manual Environment Setup
+#### Manual Environment Setup
 The minimum environment requirements are `Python >= 3.8` and `PyTorch >= 1.13`. 
 ```shell 
 git clone https://github.com/pytorch/fairseq
@@ -39,7 +39,7 @@ git clone https://github.com/cwx-worst-one/EAT
 ```
 
 <!-- omit in toc -->
-##### Using Docker Image
+#### Using Docker Image
 We also provide a Docker image for an easier and more consistent setup. The Docker image will be released soon, containing all necessary dependencies pre-installed.
 
 ## Model Checkpoints
