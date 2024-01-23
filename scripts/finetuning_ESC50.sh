@@ -20,8 +20,8 @@ python fairseq_cli/hydra_train.py -m \
     model.model_path=/hpc_stor03/sjtu_home/wenxi.chen/model_ckpt/EAT/checkpoint10.pt \
     model.num_classes=50 \
     model.esc50_eval=true \
-    model.mixup=0.8 \
+    model.mixup=0.0 \
     model.target_length=512 \
-    model.mask_ratio=0.2 \
+    model.mask_ratio=0.4 \
     model.label_smoothing=0.1 \
     model.prediction_mode=PredictionMode.CLS_TOKEN \

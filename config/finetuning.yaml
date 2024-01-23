@@ -89,3 +89,5 @@ model:
   target_length: 1024
 
   label_smoothing: 0.0
+  freqm: 25
+  timem: 200

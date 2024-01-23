@@ -8,6 +8,7 @@
 
 **Guides**
 - [Requirements and Installation](#requirements-and-installation)
+      - [Using Docker Image](#using-docker-image)
 - [Model Checkpoints](#model-checkpoints)
 - [Feature Extraction](#feature-extraction)
 - [Data Preparation](#data-preparation)
@@ -18,20 +19,28 @@
 
 <!-- omit in toc -->
 ## News :new:
-- We release the [paper ](https://arxiv.org/abs/2401.03497) and EAT model checkpoints. 
-- We release the codes for audio features extraction and audio classification inference (on AudioSet). 
+- We release the codes for EAT pre-training and fine-tuning. 
 
 <!-- omit in toc -->
 ## Introduction 
 EAT is an audio SSL model with high effectiveness and efficiency during self-supervised pre-training. You can find details in the paper [EAT: Self-Supervised Pre-Training with Efficient Audio Transformer](https://arxiv.org/abs/2401.03497). 
 
 ## Requirements and Installation
+To run the EAT code, you have two options for setting up your environment: manual setup or using our Docker image.
+
+<!-- omit in toc -->
+##### Manual Environment Setup
+The minimum environment requirements are `Python >= 3.8` and `PyTorch >= 1.13`. 
 ```shell 
 git clone https://github.com/pytorch/fairseq
 cd fairseq
 pip install --editable ./
 git clone https://github.com/cwx-worst-one/EAT
 ```
+
+<!-- omit in toc -->
+##### Using Docker Image
+We also provide a Docker image for an easier and more consistent setup. The Docker image will be released soon, containing all necessary dependencies pre-installed.
 
 ## Model Checkpoints
 You could download the EAT checkpoints by Google Drive. 
@@ -43,23 +52,29 @@ You could download the EAT checkpoints by Google Drive.
 We provide the script for extracting audio features from the last layer of EAT encoder. The features are stored in `.npy` format and the sample rate of the extracted features is ~50Hz. EAT could provide frame-level features and utterance-level features (denoted by the CLS token).  
 To extract latent representations from audio clips, you could use our pre-trained [checkpoint](https://drive.google.com/file/d/1PFUcDbvtZfxFcyaRv3RHsjy_QhvC1QBp/view?usp=sharing) or your owns, then please run the script `feature_extract.sh` by:
 ```bash
-bash EAT/feature_extract/feature_extract.sh 
+bash EAT/scripts/feature_extract.sh 
 ``` 
 
 ## Data Preparation
 The main dataset in our experiment is [AudioSet](https://research.google.com/audioset/). Data manifest is available at [here](). We follow the file format in [wav2vec](https://github.com/facebookresearch/fairseq/tree/main/examples/wav2vec) and [data2vec](https://github.com/facebookresearch/fairseq/tree/main/examples/data2vec), where `.tsv` format file is for index while `.lbl` and `.csv` format files are specific for classification task.  You could modify the files for your own database. 
 
 ## Pre-Training 
-To be released.
+Our codes are adapted from [Audio-MAE](https://github.com/facebookresearch/AudioMAE) and [data2vec](https://github.com/facebookresearch/fairseq/tree/main/examples/data2vec). We employ `pretraining_AS2M.yaml` as our default pre-training config. To pre-train the EAT model, you could run the script `pretraining_AS2M.sh` by:
+```bash
+bash EAT/scripts/pretraining_AS2M.sh 
+``` 
 
 ## Fine-Tuning
-To be released.
+We employ `finetuning.yaml` as our default fine-tuning config. To fine-tune the EAT model in different downstream tasks, you could run the script `finetuning_{task}.sh`, where `{task}` includes `AS20K`, `AS2M`, `ESC50` and `SPCv2`. For example, you can fine-tune EAT on `AS20K` by executing: 
+```bash
+bash EAT/scripts/finetuning_AS20K.sh
+``` 
 
 ## Inference 
 For inference on AudioSet audio clips with fine-tuned models, you could use our EAT checkpoints fine-tuning on [AS-2M](https://drive.google.com/file/d/1FNZ4LotG-VLRwrQJacsQyKQZnEah4i4w/view?usp=sharing) or [AS-20K](https://drive.google.com/file/d/1TyRG2xczQ6rvnkvEn0p2A-KbgSPKxcEI/view?usp=drive_link)
 and run the script `inference.sh` by: 
 ```bash
-bash EAT/inference/inference.sh 
+bash EAT/scripts/inference.sh 
 ``` 
 An example output is as follows:
 ```python
@@ -81,16 +96,17 @@ EAT achieves a total pre-training time reduction of ~15x compared to BEATs and ~
 ![](src/efficiency.png)  
 
 
-
+<!-- omit in toc -->
+## Experiment Logs
+We report the experiment logs using [wandb](https://wandb.ai). The logs will be released to view. 
 
 
 <!-- omit in toc -->
 ## TODO 
-- [x] release the feature extraction codes
-- [x] release the model checkpoints for pre-training and fine-tuning
-- [x] release the inferrence codes 
-- [ ] release the pre-trained codes
-- [ ] release the fine-tuned codes
+- [x] release the pre-trained codes
+- [x] release the fine-tuned codes
+- [ ] release the experiment logs
+- [ ] release the docker image
 
 
 <!-- omit in toc -->

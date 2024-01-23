@@ -84,8 +84,8 @@ class MaeImageClassificationConfig(FairseqDataclass):
 
     # specaug for specific downstream task
     specaug: bool = field(default=False, metadata={"help": "if true, use the specaug technique (frame and frequency masked 30%)"})
-    freqm: int = field(default=48, metadata={"help": "the mask ratio of frequency dimension in audio spectrogram by default"})
-    timem: int = field(default=192, metadata={"help": "the mask ratio of time dimension in audio spectrogram by default"})
+    freqm: int = field(default=25, metadata={"help": "the mask ratio of frequency dimension in audio spectrogram by default"})
+    timem: int = field(default=200, metadata={"help": "the mask ratio of time dimension in audio spectrogram by default"})
     mask_ratio: float = field(default=0.0, metadata={"help": "the mask ratio of both time and freq "})
     
 
