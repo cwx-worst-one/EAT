@@ -125,9 +125,7 @@ class MaeImageDataset(FairseqDataset):
         # load wav files
         mask_args = {}
         if self.audio_mae:
-            min_sample_size = 32000
-            if self.spcv2_eval:
-                min_sample_size = 10000 
+            min_sample_size = 10000 
             
             input_size = (self.target_length,128)
             manifest_path = os.path.join(root, "{}.tsv".format(split))     
