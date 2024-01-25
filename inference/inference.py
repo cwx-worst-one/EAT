@@ -12,7 +12,7 @@ import csv
 # global normalization for AudioSet as default (norm_mean=-4.268 && norm_std=4.569)
 def get_parser():
     parser = argparse.ArgumentParser(
-        description="extract EAT features for downstream tasks"
+        description="use fine-tuned EAT for inference in downstream tasks"
     )
     parser.add_argument('--source_file', help='location of source wav files', required=True)
     parser.add_argument('--label_file', help='location of label files', required=True)

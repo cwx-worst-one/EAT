@@ -6,6 +6,7 @@ python fairseq_cli/hydra_train.py -m \
     --config-dir EAT/config \
     --config-name finetuning  \
     common.user_dir=EAT \
+    common.seed=42 \
     checkpoint.save_dir=/hpc_stor03/sjtu_home/wenxi.chen/model_ckpt/spcv2 \
     checkpoint.restore_file=/hpc_stor03/sjtu_home/wenxi.chen/model_ckpt/spcv2/checkpoint_last.pt \
     dataset.batch_size=256 \
