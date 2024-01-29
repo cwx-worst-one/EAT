@@ -29,7 +29,7 @@ To run the EAT code, you have two options for setting up your environment: manua
 
 <!-- omit in toc -->
 #### Manual Environment Setup
-The minimum environment requirements are `Python >= 3.8` and `PyTorch >= 1.13`. 
+The minimum environment requirements are `Python >= 3.8` and `PyTorch >= 1.13`. You could find the versions of other dependencies we use in `requirements.txt`. 
 ```shell 
 git clone https://github.com/pytorch/fairseq
 cd fairseq
