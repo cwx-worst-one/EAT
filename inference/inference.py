@@ -98,9 +98,12 @@ def main():
             pred = model(source)
             pred = torch.sigmoid(pred)
             topk_values, topk_indices = torch.topk(pred, top_k_prediction)
-            inference = {vocab[index.item()]: round(value.item(),4) for index, value in zip(topk_indices[0], topk_values[0])}
-            print(inference)
-            print("Successfully inference")
+            inference = {vocab[index.item()]: value.item() for index, value in zip(topk_indices[0], topk_values[0])}
+            print("************ Acoustic Event Inference ************")
+            print("LABEL" + ' ' * 26 + "PREDICTION")
+            for label,res in inference.items():
+                print("{:<30s} {:.3f}".format(label,res))
+            print("**************************************************")
         except:
             print("Error in inference from {}".format(source_file))
             Exception("Error in inference from {}".format(source_file))

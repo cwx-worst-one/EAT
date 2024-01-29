@@ -78,9 +78,21 @@ bash EAT/scripts/inference.sh
 An example output is as follows:
 ```python
 # top_k_prediction = 12
-{'Percussion': 0.5227, 'Drum kit': 0.4365, 'Vibraphone': 0.4196, 'Drum': 0.3161, 
-'Music': 0.3035, 'Snare drum': 0.2766, 'Glockenspiel': 0.2248, 'Marimba, xylophone': 0.223, 
-'Cymbal': 0.213, 'Bass drum': 0.2069, 'Hi-hat': 0.1961, 'Mallet percussion': 0.1704}
+************ Acoustic Event Inference ************
+LABEL                          PREDICTION
+Percussion                     0.523
+Drum kit                       0.437
+Vibraphone                     0.420
+Drum                           0.316
+Music                          0.303
+Snare drum                     0.277
+Glockenspiel                   0.225
+Marimba, xylophone             0.223
+Cymbal                         0.213
+Bass drum                      0.207
+Hi-hat                         0.196
+Mallet percussion              0.170
+**************************************************
 ```
 
 
