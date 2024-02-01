@@ -77,6 +77,7 @@ def main():
                 
     source = (source - norm_mean) / (norm_std * 2)
         
+    # comment this line to fine-tune an end-to-end model
     with torch.no_grad():
         try:
             source = source.unsqueeze(dim=0) #btz=1

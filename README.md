@@ -1,9 +1,10 @@
 <!-- omit in toc -->
 # EAT: Self-Supervised Pre-Training with Efficient Audio Transformer
-[![Platform](https://img.shields.io/badge/Platform-linux-lightgrey)](https://github.com/cwx-worst-one/EAT)
-[![Python](https://img.shields.io/badge/Python-3.8+-orange)](https://github.com/cwx-worst-one/EAT)
-[![Pytorch](https://img.shields.io/badge/PyTorch-1.13+-brightgreen)](https://github.com/cwx-worst-one/EAT)
-[![fairseq](https://img.shields.io/badge/fairseq-0.12.2-blue)](https://github.com/cwx-worst-one/EAT)
+[![Platform](https://img.shields.io/badge/Platform-linux-lightgrey?logo=linux)](https://www.linux.org/)
+[![Python](https://img.shields.io/badge/Python-3.8%2B-orange?logo=python)](https://www.python.org/)
+[![Pytorch](https://img.shields.io/badge/PyTorch-1.13%2B-brightgree?logo=PyTorch)](https://pytorch.org/)
+[![arXiv](https://img.shields.io/badge/Arxiv-2401.03497-blueviolet?logo=arxiv)](https://arxiv.org/abs/2401.03497)
+[![fairseq](https://img.shields.io/badge/Fairseq-0.12.2-blue)](https://github.com/facebookresearch/fairseq)
 [![License](https://img.shields.io/badge/License-MIT-red.svg)](https://github.com/cwx-worst-one/EAT)
 
 **Guides**
@@ -17,8 +18,8 @@
 
 
 <!-- omit in toc -->
-## News :new:
-- We release the codes for EAT pre-training and fine-tuning. 
+## News :fire:
+- We release the codes for EAT [pre-training](#pre-training) and [fine-tuning](#fine-tuning). 
 
 <!-- omit in toc -->
 ## Introduction 
@@ -70,13 +71,13 @@ bash EAT/scripts/finetuning_AS20K.sh
 ``` 
 
 ## Inference 
-For inference on AudioSet audio clips with fine-tuned models, you could use our EAT checkpoints fine-tuning on [AS-2M](https://drive.google.com/file/d/1FNZ4LotG-VLRwrQJacsQyKQZnEah4i4w/view?usp=sharing) or [AS-20K](https://drive.google.com/file/d/1TyRG2xczQ6rvnkvEn0p2A-KbgSPKxcEI/view?usp=drive_link)
+For inference on AudioSet audio clips with fine-tuned models, you could use our EAT checkpoints fine-tuning on [AS-2M](https://drive.google.com/file/d/1FNZ4LotG-VLRwrQJacsQyKQZnEah4i4w/view?usp=sharing) (recommended) or [AS-20K](https://drive.google.com/file/d/1TyRG2xczQ6rvnkvEn0p2A-KbgSPKxcEI/view?usp=drive_link)
 and run the script `inference.sh` by: 
 ```bash
 bash EAT/scripts/inference.sh 
 ``` 
 An example output is as follows:
-```python
+```
 # top_k_prediction = 12
 ************ Acoustic Event Inference ************
 LABEL                          PREDICTION

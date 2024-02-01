@@ -1,4 +1,3 @@
-apex==0.9.10dev
 fairseq==0.12.2
 h5py==3.10.0
 numpy==1.26.3
