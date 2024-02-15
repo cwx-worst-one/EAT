@@ -19,7 +19,7 @@
 
 <!-- omit in toc -->
 ## News :fire:
-- We release the codes for EAT [pre-training](#pre-training) and [fine-tuning](#fine-tuning). 
+- We release EAT base (20 epochs) and EAT large (10 epochs) with better performance. 
 
 <!-- omit in toc -->
 ## Introduction 
@@ -43,12 +43,17 @@ git clone https://github.com/cwx-worst-one/EAT
 We also provide a Docker image for an easier and more consistent setup. The Docker image will be released soon, containing all necessary dependencies pre-installed.
 
 ## Model Checkpoints
-You could download the EAT checkpoints by Google Drive. 
+You could download the EAT base (10 epochs) checkpoints by Google Drive. 
 - AS-2M [Pre-trained](https://drive.google.com/file/d/1PFUcDbvtZfxFcyaRv3RHsjy_QhvC1QBp/view?usp=sharing)
 - AS-2M Pre-trained+[Fine-tuned](https://drive.google.com/file/d/1FNZ4LotG-VLRwrQJacsQyKQZnEah4i4w/view?usp=sharing) (AS-2M)
 - AS-2M Pre-trained+[Fine-tuned](https://drive.google.com/file/d/1TyRG2xczQ6rvnkvEn0p2A-KbgSPKxcEI/view?usp=drive_link) (AS-20K)
 
 :warning: Due to the limited amount of AudioSet data we possess compared to other models, we highly **recommend** [pre-training](#pre-training) the EAT model with your own data, which would probably perform better than the given one.
+
+**Update** :new:  
+We have introduced two new variants of the EAT pre-training model, focusing on enhancing the model's performance through extended pre-training epochs or model scaling up. The newly introduced EAT base (20 epochs pre-training, 88M) reached mAP of **40.8** in AS-20K while EAT large (10 epochs pre-training, 309M) reached mAP of **41.1**.
+- [EAT base](https://drive.google.com/file/d/15yVYTeUv5Y6vzJcz8wKOp4J6Ze2Zb7jZ/view?usp=drive_link) (20 epochs pre-training) 
+- [EAT large](https://drive.google.com/file/d/1nVjQ-LomQ4vAbil2IblaPnWNE6jsb4DQ/view?usp=drive_link) (10 epochs pre-training)
 
 ## Feature Extraction
 We provide the script for extracting audio features from the last layer of EAT encoder. The features are stored in `.npy` format and the sample rate of the extracted features is ~50Hz. EAT could provide frame-level features and utterance-level features (denoted by the CLS token).  
@@ -117,8 +122,7 @@ We report the experiment logs using [wandb](https://wandb.ai). The logs will be 
 
 <!-- omit in toc -->
 ## TODO 
-- [x] release the pre-trained codes
-- [x] release the fine-tuned codes
+- [ ] release the final EAT large
 - [ ] release the experiment logs
 - [ ] release the docker image
 
