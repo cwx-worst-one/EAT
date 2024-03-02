@@ -14,12 +14,15 @@
 - [Data Preparation](#data-preparation)
 - [Pre-Training](#pre-training)
 - [Fine-Tuning](#fine-tuning)
-- [Inference](#inference)
+- [Inference and Evaluation](#inference-and-evaluation)
 
 
 <!-- omit in toc -->
 ## News :fire:
-- We release EAT base (20 epochs) and EAT large (10 epochs) with better performance. 
+- We release EAT-base (30 epochs) and EAT-large (10 epochs) with better performance. 
+- We have published a WandB report to detail the training process of EAT.
+- We have updated the evaluation codes for better usage.
+- The EAT-large (30 epochs) and docker image for EAT is coming soon!
 
 <!-- omit in toc -->
 ## Introduction 
@@ -39,21 +42,21 @@ git clone https://github.com/cwx-worst-one/EAT
 ```
 
 <!-- omit in toc -->
-#### Using Docker Image
+#### Using Docker Image :whale:
 We also provide a Docker image for an easier and more consistent setup. The Docker image will be released soon, containing all necessary dependencies pre-installed.
 
 ## Model Checkpoints
-You could download the EAT base (10 epochs) checkpoints by Google Drive. 
+You could download the EAT-base (10 epochs) checkpoints by Google Drive. 
 - AS-2M [Pre-trained](https://drive.google.com/file/d/1PFUcDbvtZfxFcyaRv3RHsjy_QhvC1QBp/view?usp=sharing)
 - AS-2M Pre-trained+[Fine-tuned](https://drive.google.com/file/d/1FNZ4LotG-VLRwrQJacsQyKQZnEah4i4w/view?usp=sharing) (AS-2M)
 - AS-2M Pre-trained+[Fine-tuned](https://drive.google.com/file/d/1TyRG2xczQ6rvnkvEn0p2A-KbgSPKxcEI/view?usp=drive_link) (AS-20K)
 
 :warning: Due to the limited amount of AudioSet data we possess compared to other models, we highly **recommend** [pre-training](#pre-training) the EAT model with your own data, which would probably perform better than the given one.
 
-**Update** :new:  
-We have introduced two new variants of the EAT pre-training model, focusing on enhancing the model's performance through extended pre-training epochs or model scaling up. The newly introduced EAT base (20 epochs pre-training, 88M) reached mAP of **40.8** in AS-20K while EAT large (10 epochs pre-training, 309M) reached mAP of **41.1**.
-- [EAT base](https://drive.google.com/file/d/15yVYTeUv5Y6vzJcz8wKOp4J6Ze2Zb7jZ/view?usp=drive_link) (20 epochs pre-training) 
-- [EAT large](https://drive.google.com/file/d/1nVjQ-LomQ4vAbil2IblaPnWNE6jsb4DQ/view?usp=drive_link) (10 epochs pre-training)
+**Update!!!** :new:  
+We have introduced two new variants of the EAT pre-training model, focusing on enhancing the model's performance through extended pre-training epochs or model scaling up. The newly introduced EAT-base (30 epochs pre-training, 88M) reached mAP of **41.3** when fine-tuning on AS-20K while EAT large (10 epochs pre-training, 309M) reached mAP of **41.1**.
+- [EAT-base](https://drive.google.com/file/d/16ih67RpKjywP_yVcw2GwaBYnwjYLC1QI/view?usp=sharing) (30 epochs pre-training, **recommended**) 
+- [EAT-large](https://drive.google.com/file/d/1nVjQ-LomQ4vAbil2IblaPnWNE6jsb4DQ/view?usp=drive_link) (10 epochs pre-training)
 
 ## Feature Extraction
 We provide the script for extracting audio features from the last layer of EAT encoder. The features are stored in `.npy` format and the sample rate of the extracted features is ~50Hz. EAT could provide frame-level features and utterance-level features (denoted by the CLS token).  
@@ -77,7 +80,7 @@ We employ `finetuning.yaml` as our default fine-tuning config. To fine-tune the 
 bash EAT/scripts/finetuning_AS20K.sh
 ``` 
 
-## Inference 
+## Inference and Evaluation
 For inference on AudioSet audio clips with fine-tuned models, you could use our EAT checkpoints fine-tuning on [AS-2M](https://drive.google.com/file/d/1FNZ4LotG-VLRwrQJacsQyKQZnEah4i4w/view?usp=sharing) (recommended) or [AS-20K](https://drive.google.com/file/d/1TyRG2xczQ6rvnkvEn0p2A-KbgSPKxcEI/view?usp=drive_link)
 and run the script `inference.sh` by: 
 ```bash
@@ -102,6 +105,13 @@ Hi-hat                         0.196
 Mallet percussion              0.170
 **************************************************
 ```
+  
+For comprehensive evaluation on the entire AudioSet eval dataset with fine-tuned EAT models, you could run the evaluation script `eval.sh` by:
+```bash
+bash EAT/scripts/eval.sh 
+```
+This script will give you the evaluation value of mAP on AudioSet test dataset. 
+Per-class AP can be found under the path `/EAT/ap_log.txt`.
 
 
 <!-- omit in toc -->
@@ -117,14 +127,15 @@ EAT achieves a total pre-training time reduction of ~15x compared to BEATs and ~
 
 <!-- omit in toc -->
 ## Experiment Logs
-We report the experiment logs using [wandb](https://wandb.ai). The logs will be released to view. 
+We report the experiment logs using [wandb](https://wandb.ai). We have published a  short WandB report detailing the training process and performance metrics of the EAT model. You could visit it [here](https://api.wandb.ai/links/wxc12/obqrpq36).
 
 
 <!-- omit in toc -->
 ## TODO 
-- [ ] release the final EAT large
-- [ ] release the experiment logs
+- [x] release the experiment logs
+- [x] release the evaluation codes
 - [ ] release the docker image
+- [ ] release the final EAT large
 
 
 <!-- omit in toc -->
