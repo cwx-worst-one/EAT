@@ -9,7 +9,7 @@ python fairseq_cli/hydra_train.py -m \
     checkpoint.save_dir=/hpc_stor03/sjtu_home/wenxi.chen/model_ckpt/finetune_test \
     checkpoint.restore_file=/hpc_stor03/sjtu_home/wenxi.chen/model_ckpt/finetune_test/checkpoint_last.pt \
     checkpoint.best_checkpoint_metric=mAP \
-    dataset.batch_size=32 \
+    dataset.batch_size=96 \
     task.data=/hpc_stor03/sjtu_home/wenxi.chen/mydata/audio/AS2M \
     task.h5_format=true \
     task.AS2M_finetune=true \

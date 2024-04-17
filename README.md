@@ -111,7 +111,7 @@ For comprehensive evaluation on the entire AudioSet eval dataset with fine-tuned
 bash EAT/scripts/eval.sh 
 ```
 This script will give you the evaluation value of mAP on AudioSet test dataset. 
-Per-class AP can be found under the path `./EAT/ap_log.txt`.
+Per-class AP can be found under the path `./EAT/ap_log.txt`. You could also refer to our results of finetuned EAT models on evaluation set of Audioset under the path `./EAT/results`.
 
 
 <!-- omit in toc -->

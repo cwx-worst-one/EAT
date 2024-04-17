@@ -368,7 +368,7 @@ class RelativePositionBias(nn.Module):
 class PatchEmbed_new(nn.Module):
     """ Flexible Image to Patch Embedding
     """
-    def __init__(self, img_size=224, patch_size=16, in_chans=3, embed_dim=768, stride=10):
+    def __init__(self, img_size=224, patch_size=16, in_chans=3, embed_dim=768, stride=16):
         super().__init__()
         img_size = to_2tuple(img_size)
         patch_size = to_2tuple(patch_size)
