@@ -409,7 +409,7 @@ class FileAudioDataset(RawAudioDataset):
                 feats = m(feats)
                 
             elif diff < 0:
-                feats = feats[0:self.target_length, :]     
+                feats = feats[:,0:self.target_length,:]     
                 
             # global normalization for AS
             self.norm_mean = -4.268 

@@ -88,7 +88,7 @@ def main():
         source = m(source)
         
     elif diff < 0:
-        source = source[0:target_length, :]
+        source = source[:,0:target_length, :]
                 
     source = (source - norm_mean) / (norm_std * 2)
     

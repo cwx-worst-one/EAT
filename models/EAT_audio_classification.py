@@ -219,23 +219,23 @@ class MaeImageClassificationModel(BaseFairseqModel):
             if "modality_encoders.IMAGE.encoder_mask" in state["model"]:
                 del state["model"]["modality_encoders.IMAGE.encoder_mask"]
                 
-            if cfg.esc50_eval:
-                num_patches = 256
-                embed_dim = 768
-                pos_embed = nn.Parameter(torch.zeros(1, num_patches, embed_dim), requires_grad=False)
-                emb = get_2d_sincos_pos_embed_flexible(pos_embed.shape[-1],(32,8),cls_token=False)
-                pos_embed.data.copy_(torch.from_numpy(emb[:num_patches,:]).float().unsqueeze(0))
-                state['model']["modality_encoders.IMAGE.fixed_positional_encoder.positions"] = pos_embed
-                state['model']['_ema']["modality_encoders.IMAGE.fixed_positional_encoder.positions"] = pos_embed
+            # if cfg.esc50_eval:
+            #     num_patches = 256
+            #     embed_dim = 768
+            #     pos_embed = nn.Parameter(torch.zeros(1, num_patches, embed_dim), requires_grad=False)
+            #     emb = get_2d_sincos_pos_embed_flexible(pos_embed.shape[-1],(32,8),cls_token=False)
+            #     pos_embed.data.copy_(torch.from_numpy(emb[:num_patches,:]).float().unsqueeze(0))
+            #     state['model']["modality_encoders.IMAGE.fixed_positional_encoder.positions"] = pos_embed
+            #     state['model']['_ema']["modality_encoders.IMAGE.fixed_positional_encoder.positions"] = pos_embed
                 
-            if cfg.spcv2_eval:
-                num_patches = 64
-                embed_dim = 768
-                pos_embed = nn.Parameter(torch.zeros(1, num_patches, embed_dim), requires_grad=False)
-                emb = get_2d_sincos_pos_embed_flexible(pos_embed.shape[-1],(8,8),cls_token=False)
-                pos_embed.data.copy_(torch.from_numpy(emb[:num_patches,:]).float().unsqueeze(0))
-                state['model']["modality_encoders.IMAGE.fixed_positional_encoder.positions"] = pos_embed
-                state['model']['_ema']["modality_encoders.IMAGE.fixed_positional_encoder.positions"] = pos_embed
+            # if cfg.spcv2_eval:
+            #     num_patches = 64
+            #     embed_dim = 768
+            #     pos_embed = nn.Parameter(torch.zeros(1, num_patches, embed_dim), requires_grad=False)
+            #     emb = get_2d_sincos_pos_embed_flexible(pos_embed.shape[-1],(8,8),cls_token=False)
+            #     pos_embed.data.copy_(torch.from_numpy(emb[:num_patches,:]).float().unsqueeze(0))
+            #     state['model']["modality_encoders.IMAGE.fixed_positional_encoder.positions"] = pos_embed
+            #     state['model']['_ema']["modality_encoders.IMAGE.fixed_positional_encoder.positions"] = pos_embed
                 
 
             model.load_state_dict(state["model"], strict=True) 

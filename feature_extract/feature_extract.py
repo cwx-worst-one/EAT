@@ -17,11 +17,14 @@ def get_parser():
     parser.add_argument('--target_file', help='location of target npy files', required=True)
     parser.add_argument('--model_dir', type=str, help='pretrained model', required=True)
     parser.add_argument('--checkpoint_dir', type=str, help='checkpoint for pre-trained model', required=True)
-    parser.add_argument('--granularity', type=str, help='which granularity to use, frame or utterance', required=True)
+    parser.add_argument('--granularity', type=str, choices=['all', 'frame', 'utterance'], required=True, 
+                        help='Specifies the granularity of features to use: "all" for all frame features including the cls token, \
+                        "frame" for all frame features excluding the cls token, and "utterance" for only the cls token feature.')
     parser.add_argument('--target_length', type=int, help='the target length of Mel spectrogram in time dimension', required=True)
     parser.add_argument('--norm_mean', type=float, help='mean value for normalization', default=-4.268)
     parser.add_argument('--norm_std', type=float, help='standard deviation for normalization', default=4.569)
-    
+    parser.add_argument('--mode', type=str, choices=['pretrain', 'finetune'], required=True, 
+                        help='Specifies the mode of the model: "pretrain" for EAT pre-training, "finetune" for EAT fine-tuning.')
     return parser
 
 @dataclass
@@ -41,6 +44,7 @@ def main():
     target_length = args.target_length
     norm_mean = args.norm_mean
     norm_std = args.norm_std
+    mode = args.mode
 
     model_path = UserDirModule(model_dir)
     fairseq.utils.import_user_module(model_path)
@@ -73,25 +77,30 @@ def main():
         source = m(source)
         
     elif diff < 0:
-        source = source[0:target_length, :]
+        source = source[:,0:target_length, :]
                 
     source = (source - norm_mean) / (norm_std * 2)
+    
+    if mode == "finetune":
+        model = model.model
         
-    # comment this line to fine-tune an end-to-end model
     with torch.no_grad():
         try:
             source = source.unsqueeze(dim=0) #btz=1
             
-            if granularity == 'frame':
+            if granularity == 'all':
+                feats = model.extract_features(source, padding_mask=None,mask=False, remove_extra_tokens=False)
+                feats = feats['x'].squeeze(0).cpu().numpy()
+            elif granularity == 'frame':
                 feats = model.extract_features(source, padding_mask=None,mask=False, remove_extra_tokens=True)
                 feats = feats['x'].squeeze(0).cpu().numpy()
-            
             elif granularity == 'utterance':
                 feats = model.extract_features(source, padding_mask=None,mask=False, remove_extra_tokens=False)
                 feats = feats['x']
                 feats = feats[:, 0].squeeze(0).cpu().numpy()
             else:
                 raise ValueError("Unknown granularity: {}".format(args.granularity))
+            print(feats.shape)
             np.save(target_file, feats)
             print("Successfully saved")
         except:
