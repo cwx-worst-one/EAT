@@ -52,11 +52,21 @@ You could download the EAT-base (10 epochs) checkpoints by Google Drive.
 :warning: Due to the limited amount of AudioSet data we possess compared to other models, we highly **recommend** [pre-training](#pre-training) the EAT model with your own data, which would probably perform better than the given one.
 
 **Update!!!!!** :new:  (**RECOMMEND**)  
-We have introduced two new variants of the EAT pre-training model and their fine-tuned versions, each designed to enhance performance through either extended pre-training epochs or scaling up the model size.  The newly introduced EAT-base (30 epochs pre-training, 88M) reached mAP of **41.3** when fine-tuning on AS-20K while EAT-large (20 epochs pre-training, 309M) reached mAP of **42.0** during testing.
+We have introduced two new variants of the EAT pre-training model and their fine-tuned versions, each designed to enhance performance through either extended pre-training epochs or scaling up the model size.  
+
+Links for model checkpoints:  
 - [EAT-base_epoch30](https://drive.google.com/file/d/19hfzLgHCkyqTOYmHt8dqVa9nm-weBq4f/view?usp=sharing) (pre-training) 
 - [EAT-base_epoch30](https://drive.google.com/file/d/1aCYiQmoZv_Gh1FxnR-CCWpNAp6DIJzn6/view?usp=sharing) (fine-tuning) 
 - [EAT-large_epoch20](https://drive.google.com/file/d/1PEgriRvHsqrtLzlA478VemX7Q0ZGl889/view?usp=sharing) (pre-training)
-- [EAT-large_epoch20](https://drive.google.com/file/d/1b_f_nQAdjM1B6u72OFUtFiUu-4yM2shd/view?usp=sharing) (fine-tuning)
+- [EAT-large_epoch20](https://drive.google.com/file/d/1b_f_nQAdjM1B6u72OFUtFiUu-4yM2shd/view?usp=sharing) (fine-tuning)  
+
+Performance metrics:  
+|Model|Backbone|Parameters|Pre-training $\\$ Epoch|AS-20K $\\$ mAP(%)|AS-2M $\\$ mAP(%)|
+|:-:|:-:|:-:|:-:|:-:|:-:|
+|EAT-base|ViT-B|88M|10|40.3 | 48.6|
+|EAT-base|ViT-B|88M|30|41.3 | 48.9|
+|EAT-large|ViT-L|309M|20|**42.0** | **49.5**|
+
 
 ## Feature Extraction
 We provide the script for extracting audio features from the last layer of EAT encoder. The features are stored in `.npy` format and the sample rate of the extracted features is ~50Hz. EAT could provide frame-level features and utterance-level features (denoted by the CLS token).  
