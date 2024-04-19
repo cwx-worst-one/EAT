@@ -56,9 +56,9 @@ We have introduced two new variants of the EAT pre-training model and their fine
 
 Links for model checkpoints:  
 - [EAT-base_epoch30](https://drive.google.com/file/d/19hfzLgHCkyqTOYmHt8dqVa9nm-weBq4f/view?usp=sharing) (pre-training) 
-- [EAT-base_epoch30](https://drive.google.com/file/d/1aCYiQmoZv_Gh1FxnR-CCWpNAp6DIJzn6/view?usp=sharing) (fine-tuning) 
+- [EAT-base_epoch30](https://drive.google.com/file/d/1aCYiQmoZv_Gh1FxnR-CCWpNAp6DIJzn6/view?usp=sharing) (fine-tuning on AS-2M) 
 - [EAT-large_epoch20](https://drive.google.com/file/d/1PEgriRvHsqrtLzlA478VemX7Q0ZGl889/view?usp=sharing) (pre-training)
-- [EAT-large_epoch20](https://drive.google.com/file/d/1b_f_nQAdjM1B6u72OFUtFiUu-4yM2shd/view?usp=sharing) (fine-tuning)  
+- [EAT-large_epoch20](https://drive.google.com/file/d/1b_f_nQAdjM1B6u72OFUtFiUu-4yM2shd/view?usp=sharing) (fine-tuning on AS-2M)  
 
 Performance metrics:  
 |Model|Backbone|Parameters|Pre-training <br> Epoch|AS-20K <br> mAP(%)|AS-2M <br> mAP(%)|
