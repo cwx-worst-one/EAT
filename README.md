@@ -61,7 +61,7 @@ Links for model checkpoints:
 - [EAT-large_epoch20](https://drive.google.com/file/d/1b_f_nQAdjM1B6u72OFUtFiUu-4yM2shd/view?usp=sharing) (fine-tuning)  
 
 Performance metrics:  
-|Model|Backbone|Parameters|Pre-training $\\$ Epoch|AS-20K $\\$ mAP(%)|AS-2M $\\$ mAP(%)|
+|Model|Backbone|Parameters|Pre-training <br> Epoch|AS-20K <br> mAP(%)|AS-2M <br> mAP(%)|
 |:-:|:-:|:-:|:-:|:-:|:-:|
 |EAT-base|ViT-B|88M|10|40.3 | 48.6|
 |EAT-base|ViT-B|88M|30|41.3 | 48.9|
