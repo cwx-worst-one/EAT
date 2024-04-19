@@ -1,0 +1,528 @@
+Class                                              AP
+Speech                                             0.8432
+Male speech, man speaking                          0.0989
+Female speech, woman speaking                      0.1282
+Child speech, kid speaking                         0.4939
+Conversation                                       0.4294
+Narration, monologue                               0.1373
+Babbling                                           0.6378
+Speech synthesizer                                 0.5371
+Shout                                              0.2121
+Bellow                                             0.1772
+Whoop                                              0.1804
+Yell                                               0.2782
+Battle cry                                         0.8570
+Children shouting                                  0.5496
+Screaming                                          0.3745
+Whispering                                         0.8538
+Laughter                                           0.5029
+Baby laughter                                      0.6497
+Giggle                                             0.3337
+Snicker                                            0.2948
+Belly laugh                                        0.2958
+Chuckle, chortle                                   0.2515
+Crying, sobbing                                    0.5478
+Baby cry, infant cry                               0.5023
+Whimper                                            0.3473
+Wail, moan                                         0.1833
+Sigh                                               0.3682
+Singing                                            0.3705
+Choir                                              0.7645
+Yodeling                                           0.6488
+Chant                                              0.5079
+Mantra                                             0.3814
+Male singing                                       0.2233
+Female singing                                     0.3029
+Child singing                                      0.5787
+Synthetic singing                                  0.5141
+Rapping                                            0.4821
+Humming                                            0.5877
+Groan                                              0.0966
+Grunt                                              0.3676
+Whistling                                          0.7394
+Breathing                                          0.2005
+Wheeze                                             0.2344
+Snoring                                            0.8556
+Gasp                                               0.2803
+Pant                                               0.4955
+Snort                                              0.2016
+Cough                                              0.5383
+Throat clearing                                    0.4676
+Sneeze                                             0.5168
+Sniff                                              0.4055
+Run                                                0.3513
+Shuffle                                            0.5210
+Walk, footsteps                                    0.4522
+Chewing, mastication                               0.6559
+Biting                                             0.3335
+Gargling                                           0.6731
+Stomach rumble                                     0.7755
+Burping, eructation                                0.6821
+Hiccup                                             0.7626
+Fart                                               0.8154
+Hands                                              0.5521
+Finger snapping                                    0.5485
+Clapping                                           0.4798
+Heart sounds, heartbeat                            0.6082
+Heart murmur                                       0.3462
+Cheering                                           0.5473
+Applause                                           0.6216
+Chatter                                            0.7215
+Crowd                                              0.7275
+Hubbub, speech noise, speech babble                0.3280
+Children playing                                   0.6226
+Animal                                             0.6463
+Domestic animals, pets                             0.6629
+Dog                                                0.6991
+Bark                                               0.4596
+Yip                                                0.2942
+Howl                                               0.7564
+Bow-wow                                            0.4897
+Growling                                           0.3836
+Whimper (dog)                                      0.2188
+Cat                                                0.7591
+Purr                                               0.8201
+Meow                                               0.6454
+Hiss                                               0.4404
+Caterwaul                                          0.7230
+Livestock, farm animals, working animals           0.7132
+Horse                                              0.5738
+Clip-clop                                          0.4936
+Neigh, whinny                                      0.8696
+Cattle, bovinae                                    0.9175
+Moo                                                0.9143
+Cowbell                                            0.6852
+Pig                                                0.6265
+Oink                                               0.4073
+Goat                                               0.6334
+Bleat                                              0.4507
+Sheep                                              0.6106
+Fowl                                               0.8734
+Chicken, rooster                                   0.7941
+Cluck                                              0.6631
+Crowing, cock-a-doodle-doo                         0.8946
+Turkey                                             0.9247
+Gobble                                             0.9199
+Duck                                               0.4550
+Quack                                              0.6647
+Goose                                              0.7974
+Honk                                               0.7248
+Wild animals                                       0.4072
+Roaring cats (lions, tigers)                       0.5042
+Roar                                               0.6066
+Bird                                               0.5106
+Bird vocalization, bird call, bird song            0.3393
+Chirp, tweet                                       0.1547
+Squawk                                             0.3616
+Pigeon, dove                                       0.7468
+Coo                                                0.8061
+Crow                                               0.6954
+Caw                                                0.7140
+Owl                                                0.7766
+Hoot                                               0.9318
+Bird flight, flapping wings                        0.7437
+Canidae, dogs, wolves                              0.3472
+Rodents, rats, mice                                0.4386
+Mouse                                              0.1813
+Patter                                             0.3281
+Insect                                             0.8089
+Cricket                                            0.6515
+Mosquito                                           0.7763
+Fly, housefly                                      0.8631
+Buzz                                               0.0918
+Bee, wasp, etc.                                    0.8202
+Frog                                               0.8912
+Croak                                              0.8684
+Snake                                              0.5965
+Rattle                                             0.0569
+Whale vocalization                                 0.7149
+Music                                              0.8643
+Musical instrument                                 0.3838
+Plucked string instrument                          0.5393
+Guitar                                             0.6860
+Electric guitar                                    0.6002
+Bass guitar                                        0.5378
+Acoustic guitar                                    0.5013
+Steel guitar, slide guitar                         0.3674
+Tapping (guitar technique)                         0.4696
+Strum                                              0.2908
+Banjo                                              0.7920
+Sitar                                              0.5315
+Mandolin                                           0.4844
+Zither                                             0.6155
+Ukulele                                            0.5810
+Keyboard (musical)                                 0.5112
+Piano                                              0.4229
+Electric piano                                     0.4358
+Organ                                              0.7748
+Electronic organ                                   0.4394
+Hammond organ                                      0.5224
+Synthesizer                                        0.2196
+Sampler                                            0.1721
+Harpsichord                                        0.7909
+Percussion                                         0.5995
+Drum kit                                           0.6609
+Drum machine                                       0.2995
+Drum                                               0.5616
+Snare drum                                         0.6473
+Rimshot                                            0.5931
+Drum roll                                          0.6314
+Bass drum                                          0.6382
+Timpani                                            0.7451
+Tabla                                              0.6314
+Cymbal                                             0.6317
+Hi-hat                                             0.6643
+Wood block                                         0.6590
+Tambourine                                         0.6427
+Rattle (instrument)                                0.4201
+Maraca                                             0.3820
+Gong                                               0.7312
+Tubular bells                                      0.2810
+Mallet percussion                                  0.3553
+Marimba, xylophone                                 0.4060
+Glockenspiel                                       0.4152
+Vibraphone                                         0.4909
+Steelpan                                           0.7779
+Orchestra                                          0.4153
+Brass instrument                                   0.8281
+French horn                                        0.7659
+Trumpet                                            0.5462
+Trombone                                           0.6490
+Bowed string instrument                            0.5286
+String section                                     0.5307
+Violin, fiddle                                     0.4236
+Pizzicato                                          0.7269
+Cello                                              0.6313
+Double bass                                        0.6596
+Wind instrument, woodwind instrument               0.8003
+Flute                                              0.5920
+Saxophone                                          0.7046
+Clarinet                                           0.6444
+Harp                                               0.7768
+Bell                                               0.2274
+Church bell                                        0.7247
+Jingle bell                                        0.6988
+Bicycle bell                                       0.7090
+Tuning fork                                        0.7155
+Chime                                              0.7547
+Wind chime                                         0.8409
+Change ringing (campanology)                       0.9263
+Harmonica                                          0.9137
+Accordion                                          0.8493
+Bagpipes                                           0.9424
+Didgeridoo                                         0.8963
+Shofar                                             0.8705
+Theremin                                           0.5179
+Singing bowl                                       0.6365
+Scratching (performance technique)                 0.6224
+Pop music                                          0.2283
+Hip hop music                                      0.3231
+Beatboxing                                         0.6840
+Rock music                                         0.2066
+Heavy metal                                        0.3214
+Punk rock                                          0.2531
+Grunge                                             0.3341
+Progressive rock                                   0.3463
+Rock and roll                                      0.3716
+Psychedelic rock                                   0.2440
+Rhythm and blues                                   0.1574
+Soul music                                         0.2513
+Reggae                                             0.3647
+Country                                            0.2445
+Swing music                                        0.3687
+Bluegrass                                          0.5502
+Funk                                               0.1877
+Folk music                                         0.1684
+Middle Eastern music                               0.2614
+Jazz                                               0.1004
+Disco                                              0.3196
+Classical music                                    0.1088
+Opera                                              0.6377
+Electronic music                                   0.2562
+House music                                        0.3214
+Techno                                             0.4497
+Dubstep                                            0.4877
+Drum and bass                                      0.3730
+Electronica                                        0.3509
+Electronic dance music                             0.4967
+Ambient music                                      0.3157
+Trance music                                       0.3716
+Music of Latin America                             0.2910
+Salsa music                                        0.6029
+Flamenco                                           0.4141
+Blues                                              0.2509
+Music for children                                 0.2122
+New-age music                                      0.3145
+Vocal music                                        0.2837
+A capella                                          0.5475
+Music of Africa                                    0.3892
+Afrobeat                                           0.4617
+Christian music                                    0.1967
+Gospel music                                       0.4710
+Music of Asia                                      0.1606
+Carnatic music                                     0.5972
+Music of Bollywood                                 0.5035
+Ska                                                0.3874
+Traditional music                                  0.2043
+Independent music                                  0.2123
+Song                                               0.1190
+Background music                                   0.3347
+Theme music                                        0.2615
+Jingle (music)                                     0.1565
+Soundtrack music                                   0.0763
+Lullaby                                            0.4778
+Video game music                                   0.4636
+Christmas music                                    0.1076
+Dance music                                        0.2567
+Wedding music                                      0.1550
+Happy music                                        0.1648
+Funny music                                        0.1290
+Sad music                                          0.2719
+Tender music                                       0.0970
+Exciting music                                     0.0898
+Angry music                                        0.7574
+Scary music                                        0.3974
+Wind                                               0.4783
+Rustling leaves                                    0.1679
+Wind noise (microphone)                            0.5131
+Thunderstorm                                       0.7939
+Thunder                                            0.7738
+Water                                              0.5777
+Rain                                               0.7405
+Raindrop                                           0.5633
+Rain on surface                                    0.6289
+Stream                                             0.4229
+Waterfall                                          0.5787
+Ocean                                              0.4431
+Waves, surf                                        0.4255
+Steam                                              0.4516
+Gurgling                                           0.1364
+Fire                                               0.3492
+Crackle                                            0.0734
+Vehicle                                            0.5532
+Boat, Water vehicle                                0.6453
+Sailboat, sailing ship                             0.5750
+Rowboat, canoe, kayak                              0.5703
+Motorboat, speedboat                               0.3968
+Ship                                               0.3972
+Motor vehicle (road)                               0.1181
+Car                                                0.4079
+Vehicle horn, car horn, honking                    0.4676
+Toot                                               0.4761
+Car alarm                                          0.6584
+Power windows, electric windows                    0.6733
+Skidding                                           0.6906
+Tire squeal                                        0.3207
+Car passing by                                     0.4582
+Race car, auto racing                              0.4868
+Truck                                              0.3682
+Air brake                                          0.3514
+Air horn, truck horn                               0.6637
+Reversing beeps                                    0.6116
+Ice cream truck, ice cream van                     0.7786
+Bus                                                0.4621
+Emergency vehicle                                  0.9355
+Police car (siren)                                 0.7693
+Ambulance (siren)                                  0.7105
+Fire engine, fire truck (siren)                    0.8963
+Motorcycle                                         0.3030
+Traffic noise, roadway noise                       0.1387
+Rail transport                                     0.8064
+Train                                              0.8168
+Train whistle                                      0.4705
+Train horn                                         0.6663
+Railroad car, train wagon                          0.8082
+Train wheels squealing                             0.8377
+Subway, metro, underground                         0.6950
+Aircraft                                           0.5878
+Aircraft engine                                    0.6259
+Jet engine                                         0.6407
+Propeller, airscrew                                0.2712
+Helicopter                                         0.6171
+Fixed-wing aircraft, airplane                      0.5937
+Bicycle                                            0.2947
+Skateboard                                         0.7768
+Engine                                             0.4348
+Light engine (high frequency)                      0.5021
+Dental drill, dentist's drill                      0.3335
+Lawn mower                                         0.5876
+Chainsaw                                           0.6813
+Medium engine (mid frequency)                      0.1424
+Heavy engine (low frequency)                       0.1056
+Engine knocking                                    0.2839
+Engine starting                                    0.4746
+Idling                                             0.2275
+Accelerating, revving, vroom                       0.3056
+Door                                               0.2353
+Doorbell                                           0.5489
+Ding-dong                                          0.2819
+Sliding door                                       0.2865
+Slam                                               0.2419
+Knock                                              0.5829
+Tap                                                0.4623
+Squeak                                             0.4248
+Cupboard open or close                             0.3785
+Drawer open or close                               0.4619
+Dishes, pots, and pans                             0.3540
+Cutlery, silverware                                0.4476
+Chopping (food)                                    0.6840
+Frying (food)                                      0.8036
+Microwave oven                                     0.3798
+Blender                                            0.8319
+Water tap, faucet                                  0.4541
+Sink (filling or washing)                          0.5710
+Bathtub (filling or washing)                       0.6715
+Hair dryer                                         0.8785
+Toilet flush                                       0.8658
+Toothbrush                                         0.0202
+Electric toothbrush                                0.3515
+Vacuum cleaner                                     0.7474
+Zipper (clothing)                                  0.6064
+Keys jangling                                      0.3453
+Coin (dropping)                                    0.5607
+Scissors                                           0.4553
+Electric shaver, electric razor                    0.5716
+Shuffling cards                                    0.7646
+Typing                                             0.5881
+Typewriter                                         0.6151
+Computer keyboard                                  0.6875
+Writing                                            0.5504
+Alarm                                              0.2890
+Telephone                                          0.2618
+Telephone bell ringing                             0.6851
+Ringtone                                           0.5117
+Telephone dialing, DTMF                            0.6441
+Dial tone                                          0.6011
+Busy signal                                        0.5874
+Alarm clock                                        0.5091
+Siren                                              0.9193
+Civil defense siren                                0.9475
+Buzzer                                             0.3142
+Smoke detector, smoke alarm                        0.7437
+Fire alarm                                         0.7304
+Foghorn                                            0.4541
+Whistle                                            0.4272
+Steam whistle                                      0.6906
+Mechanisms                                         0.3194
+Ratchet, pawl                                      0.3276
+Clock                                              0.4390
+Tick                                               0.1743
+Tick-tock                                          0.3649
+Gears                                              0.3445
+Pulleys                                            0.3277
+Sewing machine                                     0.8594
+Mechanical fan                                     0.3836
+Air conditioning                                   0.2933
+Cash register                                      0.7493
+Printer                                            0.8165
+Camera                                             0.4913
+Single-lens reflex camera                          0.5303
+Tools                                              0.4180
+Hammer                                             0.5671
+Jackhammer                                         0.5605
+Sawing                                             0.5160
+Filing (rasp)                                      0.6578
+Sanding                                            0.8432
+Power tool                                         0.3792
+Drill                                              0.5292
+Explosion                                          0.2462
+Gunshot, gunfire                                   0.7385
+Machine gun                                        0.7422
+Fusillade                                          0.5559
+Artillery fire                                     0.7427
+Cap gun                                            0.8484
+Fireworks                                          0.7223
+Firecracker                                        0.5977
+Burst, pop                                         0.0362
+Eruption                                           0.4046
+Boom                                               0.4162
+Wood                                               0.4349
+Chop                                               0.4586
+Splinter                                           0.3845
+Crack                                              0.1850
+Glass                                              0.3298
+Chink, clink                                       0.1926
+Shatter                                            0.3507
+Liquid                                             0.0944
+Splash, splatter                                   0.4646
+Slosh                                              0.3329
+Squish                                             0.0894
+Drip                                               0.2771
+Pour                                               0.5251
+Trickle, dribble                                   0.1451
+Gush                                               0.3872
+Fill (with liquid)                                 0.1682
+Spray                                              0.5701
+Pump (liquid)                                      0.3842
+Stir                                               0.8051
+Boiling                                            0.3328
+Sonar                                              0.6426
+Arrow                                              0.6925
+Whoosh, swoosh, swish                              0.3888
+Thump, thud                                        0.3161
+Thunk                                              0.3524
+Electronic tuner                                   0.6699
+Effects unit                                       0.5856
+Chorus effect                                      0.6143
+Basketball bounce                                  0.6201
+Bang                                               0.1012
+Slap, smack                                        0.6188
+Whack, thwack                                      0.2914
+Smash, crash                                       0.4542
+Breaking                                           0.3493
+Bouncing                                           0.1724
+Whip                                               0.7191
+Flap                                               0.1081
+Scratch                                            0.4254
+Scrape                                             0.0365
+Rub                                                0.7509
+Roll                                               0.3283
+Crushing                                           0.1665
+Crumpling, crinkling                               0.4641
+Tearing                                            0.3799
+Beep, bleep                                        0.4147
+Ping                                               0.3704
+Ding                                               0.3582
+Clang                                              0.3937
+Squeal                                             0.1882
+Creak                                              0.1387
+Rustle                                             0.0989
+Whir                                               0.1321
+Clatter                                            0.1307
+Sizzle                                             0.7673
+Clicking                                           0.7598
+Clickety-clack                                     0.5671
+Rumble                                             0.3987
+Plop                                               0.8833
+Jingle, tinkle                                     0.3134
+Hum                                                0.3198
+Zing                                               0.3866
+Boing                                              0.8706
+Crunch                                             0.4520
+Silence                                            0.1150
+Sine wave                                          0.5974
+Harmonic                                           0.0533
+Chirp tone                                         0.2486
+Sound effect                                       0.0658
+Pulse                                              0.1083
+Inside, small room                                 0.2106
+Inside, large room or hall                         0.0792
+Inside, public space                               0.1470
+Outside, urban or manmade                          0.1222
+Outside, rural or natural                          0.0602
+Reverberation                                      0.2610
+Echo                                               0.4274
+Noise                                              0.0857
+Environmental noise                                0.5862
+Static                                             0.5541
+Mains hum                                          0.5688
+Distortion                                         0.5615
+Sidetone                                           0.1336
+Cacophony                                          0.1721
+White noise                                        0.1374
+Pink noise                                         0.4123
+Throbbing                                          0.3426
+Vibration                                          0.1755
+Television                                         0.2712
+Radio                                              0.4291
+Field recording                                    0.2641

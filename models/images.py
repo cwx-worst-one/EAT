@@ -15,7 +15,7 @@ from timm.models.layers import to_2tuple
 from fairseq.tasks import FairseqTask
 from enum import Enum, auto
 
-from .mae import PatchEmbed,get_2d_sincos_pos_embed_flexible
+from .mae import PatchEmbed,get_2d_sincos_pos_embed_flexible,PatchEmbed_new
 
 
 from .base import (
@@ -56,7 +56,7 @@ class D2vImageConfig(D2vModalityConfig):
     transformer_decoder: bool = False
     enc_dec_transformer: bool = False
     target_length: int = 1024
-
+    max_length: int = 768
 
 class ImageEncoder(ModalitySpecificEncoder):
 
@@ -85,7 +85,8 @@ class ImageEncoder(ModalitySpecificEncoder):
         self.hw = (self.H,self.W)
 
         # (B,512,768)
-        local_encoder = PatchEmbed(
+        # note: we fix the variable length sequence problem here -> not limited to fixed length data
+        local_encoder = PatchEmbed_new(
             img_size,
             modality_cfg.patch_size,
             modality_cfg.in_chans,
@@ -104,18 +105,21 @@ class ImageEncoder(ModalitySpecificEncoder):
 
         project_features = nn.Identity()
 
+        # note: max_length control the maximum time length of audio -> "64" for 10s, here we define it as 2min, you can change it yourself
+        max_length = modality_cfg.max_length
         pos_embed = nn.Parameter(
-            torch.zeros(1, num_patches, embed_dim), requires_grad=False
+            torch.zeros(1, max_length*self.W, embed_dim), requires_grad=False
         )
 
         # side_n = int(num_patches ** 0.5)
+        # note: we fix the variable length sequence problem here -> support up to 2min audio 
         emb = get_2d_sincos_pos_embed_flexible(
             pos_embed.shape[-1],
-            self.hw,  
+            (max_length,self.W),  
             cls_token=False,
         )
         
-        pos_embed.data.copy_(torch.from_numpy(emb[:num_patches,:]).float().unsqueeze(0)) 
+        pos_embed.data.copy_(torch.from_numpy(emb[:max_length*self.W,:]).float().unsqueeze(0)) 
         fixed_positional_encoder = (
             FixedPositionalEncoder(pos_embed) if modality_cfg.fixed_positions else None
         )

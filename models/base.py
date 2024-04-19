@@ -233,7 +233,7 @@ class ModalitySpecificEncoder(nn.Module):
 
         x_pos = None
         if self.fixed_positional_encoder is not None:
-            x = x + self.fixed_positional_encoder(x, padding_mask)
+            x = x + self.fixed_positional_encoder(x, padding_mask)[:,:x.size(1),:]
 
         if mask:
             if clone_batch > 1:
