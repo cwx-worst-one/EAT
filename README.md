@@ -20,7 +20,7 @@
 <!-- omit in toc -->
 ## News :fire:
 - We release EAT-large (20 epochs) with SOTA performance on AS-2M, AS-20K, ESC-50 and SPC-2. 
-- We update the checkpoints and codes and now EAT supports variable-length audio across training, feature extraction, inference, and evaluation. 
+- We have updated the checkpoints and code, and now EAT seamlessly supports variable-length audio throughout training, feature extraction, inference, and evaluation phases.
 
 <!-- omit in toc -->
 ## Introduction 
@@ -45,22 +45,22 @@ We also provide a Docker image for an easier and more consistent setup. The Dock
 
 ## Model Checkpoints
 You could download the EAT-base (10 epochs) checkpoints by Google Drive. 
-- AS-2M [Pre-trained](https://drive.google.com/file/d/1PFUcDbvtZfxFcyaRv3RHsjy_QhvC1QBp/view?usp=sharing)
-- AS-2M Pre-trained+[Fine-tuned](https://drive.google.com/file/d/1FNZ4LotG-VLRwrQJacsQyKQZnEah4i4w/view?usp=sharing) (AS-2M)
-- AS-2M Pre-trained+[Fine-tuned](https://drive.google.com/file/d/1TyRG2xczQ6rvnkvEn0p2A-KbgSPKxcEI/view?usp=drive_link) (AS-20K)
+- AS-2M [Pre-trained](https://drive.google.com/file/d/10pklbY_fKraQUIBizSg1kv4lJXNWxpxl/view?usp=sharing)
+- AS-2M Pre-trained+[Fine-tuned](https://drive.google.com/file/d/1F07zN8N54rXU-szvKUlYaCFMCepc4wHR/view?usp=sharing) (AS-2M)
+- AS-2M Pre-trained+[Fine-tuned](https://drive.google.com/file/d/1fRX_Mgj4sHxV2F6AVfoqXObfgzFMnHRA/view?usp=sharing) (AS-20K)
 
 :warning: Due to the limited amount of AudioSet data we possess compared to other models, we highly **recommend** [pre-training](#pre-training) the EAT model with your own data, which would probably perform better than the given one.
 
 **Update!!!!!** :new:  (**RECOMMEND**)  
-We have introduced two new variants of the EAT pre-training model, focusing on enhancing the model's performance through extended pre-training epochs or model scaling up. The newly introduced EAT-base (30 epochs pre-training, 88M) reached mAP of **41.3** when fine-tuning on AS-20K while EAT large (20 epochs pre-training, 309M) reached mAP of **42.0**.
-- [EAT-base_epoch30](https://drive.google.com/file/d/16ih67RpKjywP_yVcw2GwaBYnwjYLC1QI/view?usp=sharing) (pre-training) 
-- [EAT-base_epoch30](https://drive.google.com/file/d/16ih67RpKjywP_yVcw2GwaBYnwjYLC1QI/view?usp=sharing) (fine-tuning) 
-- [EAT-large_epoch20](https://drive.google.com/file/d/1nVjQ-LomQ4vAbil2IblaPnWNE6jsb4DQ/view?usp=drive_link) (pre-training)
-- [EAT-large_epoch20](https://drive.google.com/file/d/1nVjQ-LomQ4vAbil2IblaPnWNE6jsb4DQ/view?usp=drive_link) (fine-tuning)
+We have introduced two new variants of the EAT pre-training model and their fine-tuned versions, each designed to enhance performance through either extended pre-training epochs or scaling up the model size.  The newly introduced EAT-base (30 epochs pre-training, 88M) reached mAP of **41.3** when fine-tuning on AS-20K while EAT-large (20 epochs pre-training, 309M) reached mAP of **42.0** during testing.
+- [EAT-base_epoch30](https://drive.google.com/file/d/19hfzLgHCkyqTOYmHt8dqVa9nm-weBq4f/view?usp=sharing) (pre-training) 
+- [EAT-base_epoch30](https://drive.google.com/file/d/1aCYiQmoZv_Gh1FxnR-CCWpNAp6DIJzn6/view?usp=sharing) (fine-tuning) 
+- [EAT-large_epoch20](https://drive.google.com/file/d/1PEgriRvHsqrtLzlA478VemX7Q0ZGl889/view?usp=sharing) (pre-training)
+- [EAT-large_epoch20](https://drive.google.com/file/d/1b_f_nQAdjM1B6u72OFUtFiUu-4yM2shd/view?usp=sharing) (fine-tuning)
 
 ## Feature Extraction
 We provide the script for extracting audio features from the last layer of EAT encoder. The features are stored in `.npy` format and the sample rate of the extracted features is ~50Hz. EAT could provide frame-level features and utterance-level features (denoted by the CLS token).  
-To extract latent representations from audio clips, you could use our pre-trained [checkpoint](https://drive.google.com/file/d/1PFUcDbvtZfxFcyaRv3RHsjy_QhvC1QBp/view?usp=sharing), fine-tuned [checkpoint](https://drive.google.com/file/d/1PFUcDbvtZfxFcyaRv3RHsjy_QhvC1QBp/view?usp=sharing) or your owns, then please run the script `feature_extract.sh` by:
+To extract latent representations from audio clips, you could use our pre-trained [checkpoint](https://drive.google.com/file/d/19hfzLgHCkyqTOYmHt8dqVa9nm-weBq4f/view?usp=sharing), fine-tuned [checkpoint](https://drive.google.com/file/d/1aCYiQmoZv_Gh1FxnR-CCWpNAp6DIJzn6/view?usp=sharing) or your owns, then please run the script `feature_extract.sh` by:
 ```bash
 bash EAT/scripts/feature_extract.sh 
 ``` 
@@ -69,10 +69,12 @@ bash EAT/scripts/feature_extract.sh
 The main dataset in our experiment is [AudioSet](https://research.google.com/audioset/). Regrettably, we are unable to release the data due to copyright restrictions. Data manifest is available at [here](https://drive.google.com/file/d/1LH2C0q3d4zndoR3-oGkVdYYqDCIdxIsm/view?usp=drive_link). We follow the file format in [wav2vec](https://github.com/facebookresearch/fairseq/tree/main/examples/wav2vec) and [data2vec](https://github.com/facebookresearch/fairseq/tree/main/examples/data2vec), where `.tsv` format file is for index while `.lbl` and `.csv` format files are specific for classification task.  You could modify the files for your own database. 
 
 ## Pre-Training 
-Our codes are adapted from [Audio-MAE](https://github.com/facebookresearch/AudioMAE) and [data2vec](https://github.com/facebookresearch/fairseq/tree/main/examples/data2vec). We employ `pretraining_AS2M.yaml` as our default pre-training config. To pre-train the EAT model, you could run the script `pretraining_AS2M.sh` by:
+Our codes are adapted from [Audio-MAE](https://github.com/facebookresearch/AudioMAE) and [data2vec](https://github.com/facebookresearch/fairseq/tree/main/examples/data2vec). We employ `pretraining_AS2M.yaml` as our default pre-training config. To pre-train the EAT model on Audioset, you could run the script `pretraining_AS2M.sh` by:
 ```bash
 bash EAT/scripts/pretraining_AS2M.sh 
 ``` 
+If you need to pre-train the EAT model on other datasets where audio lengths are not fixed at 10 seconds, you can refer to the instructions in
+`feature_extract/readme.md`
 
 ## Fine-Tuning
 We employ `finetuning.yaml` as our default fine-tuning config. To fine-tune the EAT model in different downstream tasks, you could run the script `finetuning_{task}.sh`, where `{task}` includes `AS20K`, `AS2M`, `ESC50` and `SPCv2`. For example, you can fine-tune EAT on `AS20K` by executing: 
@@ -81,7 +83,7 @@ bash EAT/scripts/finetuning_AS20K.sh
 ``` 
 
 ## Inference and Evaluation
-For inference on single AudioSet audio clip with fine-tuned models, you could use our EAT checkpoints fine-tuning on [AS-2M](https://drive.google.com/file/d/1FNZ4LotG-VLRwrQJacsQyKQZnEah4i4w/view?usp=sharing) (recommended) or [AS-20K](https://drive.google.com/file/d/1TyRG2xczQ6rvnkvEn0p2A-KbgSPKxcEI/view?usp=drive_link)
+For inference on single AudioSet audio clip with fine-tuned models, you could use our EAT checkpoints fine-tuning on [AS-2M](https://drive.google.com/file/d/1F07zN8N54rXU-szvKUlYaCFMCepc4wHR/view?usp=sharing) (recommended) or [AS-20K](https://drive.google.com/file/d/1fRX_Mgj4sHxV2F6AVfoqXObfgzFMnHRA/view?usp=sharing)
 and run the script `inference.sh` by: 
 ```bash
 bash EAT/scripts/inference.sh 
@@ -117,13 +119,12 @@ Per-class AP can be found under the path `./EAT/ap_log.txt`. You could also refe
 <!-- omit in toc -->
 ## Performance
 Pre-training on AS-2M, EAT gains state-of-the-art (SOTA) performance on several audio and speech classification datasets including AS-20K, AS-2M, ESC-50 and SPC-2.    
-![](src/performance.png)
+![Alt text](/src/performance.png)
 
 <!-- omit in toc -->
 ## Efficiency
 EAT achieves a total pre-training time reduction of ~15x compared to BEATs and ~10x relative to Audio-MAE. It costs only 10 epochs during EAT's pre-training on AS-2M.    
-![](src/efficiency.png)  
-
+![Alt text](/src/efficiency.png)
 
 <!-- omit in toc -->
 ## Experiment Logs
