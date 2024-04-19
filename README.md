@@ -129,12 +129,12 @@ Per-class AP can be found under the path `./EAT/ap_log.txt`. You could also refe
 <!-- omit in toc -->
 ## Performance
 Pre-training on AS-2M, EAT gains state-of-the-art (SOTA) performance on several audio and speech classification datasets including AS-20K, AS-2M, ESC-50 and SPC-2.    
-![Alt text](/src/performance.png)
+![Alt text](/src/EAT_performance.png)
 
 <!-- omit in toc -->
 ## Efficiency
 EAT achieves a total pre-training time reduction of ~15x compared to BEATs and ~10x relative to Audio-MAE. It costs only 10 epochs during EAT's pre-training on AS-2M.    
-![Alt text](/src/efficiency.png)
+![Alt text](/src/EAT_efficiency.png)
 
 <!-- omit in toc -->
 ## Experiment Logs
