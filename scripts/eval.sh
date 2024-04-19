@@ -10,3 +10,7 @@ python EAT/evaluation/eval.py  \
     --target_length=1024 \
     --device='cuda' \
     --batch_size=32
+
+# For optimal performance, 1024 is recommended for 10-second audio clips. (128 for 1-second)
+# However, you should adjust the target_length parameter based on the duration and characteristics of your specific audio inputs.
+# EAT-finetuned could make evaluation well even given truncated audio clips.

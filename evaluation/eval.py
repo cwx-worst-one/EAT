@@ -117,7 +117,7 @@ class AudioDataset(Dataset):
         if diff > 0:
             source = F.pad(source, (0, 0, 0, diff))
         elif diff < 0:
-            source = source[:, :, :self.target_length]
+            source = source[:,:self.target_length,:]
         source = (source - self.norm_mean) / (self.norm_std * 2)
         target = torch.zeros(len(self.vocab)).to(self.device)
         for lbl in label:
