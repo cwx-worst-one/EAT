@@ -147,6 +147,15 @@ We report the experiment logs using [wandb](https://wandb.ai). We have published
 - [x] update codes and checkpoints for friendly usage
 - [ ] release the docker image
 
+## Acknowledgement
+Our codebase is based on the awesome [Audio-MAE](https://github.com/facebookresearch/AudioMAE) and [data2vec](https://github.com/facebookresearch/fairseq/tree/main/examples/data2vec) repo. 
+
+
+## Institutional Contributors
+|  Institution | Contribution |
+|:------|:-----|
+| [Shanghai Jiao Tong University](https://www.seiee.sjtu.edu.cn/) | Researchers; Computing power |
+| [Peng Cheng Laboratory](https://data-starcloud.pcl.ac.cn/) | Researchers; Computing power |
 
 <!-- omit in toc -->
 ## Citation
@@ -161,5 +170,4 @@ If you find our EAT codes and models useful, please cite the following paper:
 ```
 
 <!-- omit in toc -->
-## Reference and Acknowledgement
-Our codebase is based on the awesome [Audio-MAE](https://github.com/facebookresearch/AudioMAE) and [data2vec](https://github.com/facebookresearch/fairseq/tree/main/examples/data2vec) repo. 
+
