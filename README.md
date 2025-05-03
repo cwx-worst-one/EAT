@@ -1,11 +1,12 @@
 <!-- omit in toc -->
 # EAT: Self-Supervised Pre-Training with Efficient Audio Transformer
-[![Platform](https://img.shields.io/badge/Platform-linux-lightgrey?logo=linux)](https://www.linux.org/)
 [![Python](https://img.shields.io/badge/Python-3.8%2B-orange?logo=python)](https://www.python.org/)
-[![Pytorch](https://img.shields.io/badge/PyTorch-1.13%2B-brightgree?logo=PyTorch)](https://pytorch.org/)
-[![arXiv](https://img.shields.io/badge/Arxiv-2401.03497-blueviolet?logo=arxiv)](https://arxiv.org/abs/2401.03497)
-[![fairseq](https://img.shields.io/badge/Fairseq-0.12.2-blue)](https://github.com/facebookresearch/fairseq)
+[![PyTorch](https://img.shields.io/badge/PyTorch-1.13%2B-brightgreen?logo=pytorch)](https://pytorch.org/)
+[![Fairseq](https://img.shields.io/badge/Fairseq-0.12.2-blue)](https://github.com/facebookresearch/fairseq)
+[![🤗 EAT on HuggingFace](https://img.shields.io/badge/HuggingFace-EAT-yellow?logo=huggingface)](https://huggingface.co/collections/worstchan/eat-6815b4f1034f5214f9063948)
+[![arXiv](https://img.shields.io/badge/arXiv-2401.03497-blueviolet?logo=arxiv)](https://arxiv.org/abs/2401.03497)
 [![License](https://img.shields.io/badge/License-MIT-red.svg)](https://github.com/cwx-worst-one/EAT)
+
 
 **Guides**
 - [Requirements and Installation](#requirements-and-installation)
@@ -18,49 +19,61 @@
 
 
 <!-- omit in toc -->
-## News :fire:
+## News 🔥
+- [Update May. 3, 2025] 🎉🎉🎉 EAT now supports **[Hugging Face integration](https://huggingface.co/collections/worstchan/eat-6815b4f1034f5214f9063948)**! You can extract features or run inference **without relying on Fairseq** — try EAT as your new audio encoder today!
 - We release EAT-large (20 epochs) with SOTA performance on AS-2M, AS-20K, ESC-50 and SPC-2. 
-- We have updated the checkpoints and code, and now EAT seamlessly supports variable-length audio throughout training, feature extraction, inference, and evaluation phases.
+- Checkpoints and code are updated — EAT now seamlessly supports variable-length audio across training, extraction, inference, and evaluation.
+
 
 <!-- omit in toc -->
 ## Introduction 
 EAT is an audio SSL model with high effectiveness and efficiency during self-supervised pre-training. You can find details in the paper [EAT: Self-Supervised Pre-Training with Efficient Audio Transformer](https://arxiv.org/abs/2401.03497). 
 
-## Requirements and Installation
-<!-- To run the EAT code, you have two options for setting up your environment: manual setup or using our Docker image. -->
 
-<!-- omit in toc -->
-<!-- #### Manual Environment Setup -->
-The minimum environment requirements are `Python >= 3.8` and `PyTorch >= 1.13`. You could find the versions of other dependencies we use in `requirements.txt`. 
-```shell 
+## Requirements and Installation
+The minimum environment requirements are `Python >= 3.8` and `PyTorch >= 1.13`. We now support **[Hugging Face integration](https://huggingface.co/collections/worstchan/eat-6815b4f1034f5214f9063948)** — if you're only performing **feature extraction or inference**, you no longer need to install Fairseq!
+
+
+### 🟡 For feature extraction or inference only (Hugging Face)
+No Fairseq needed. Simply run:
+```shell
+git clone https://github.com/cwx-worst-one/EAT
+cd EAT
+pip install -r requirements.txt
+```
+
+### 🔵 For pre-training or fine-tuning (Fairseq-based)
+You need to install Fairseq manually:
+
+```shell
 git clone https://github.com/pytorch/fairseq
 cd fairseq
 pip install --editable ./
 git clone https://github.com/cwx-worst-one/EAT
+pip install -r EAT/requirements.txt
 ```
 
-<!-- omit in toc -->
-<!-- #### Using Docker Image :whale:
-We also provide a Docker image for an easier and more consistent setup. The Docker image will be released soon, containing all necessary dependencies pre-installed. -->
 
 ## Model Checkpoints
-You could download the EAT-base (10 epochs) checkpoints by Google Drive. 
-- AS-2M [Pre-trained](https://drive.google.com/file/d/10pklbY_fKraQUIBizSg1kv4lJXNWxpxl/view?usp=sharing)
-- AS-2M Pre-trained+[Fine-tuned](https://drive.google.com/file/d/1F07zN8N54rXU-szvKUlYaCFMCepc4wHR/view?usp=sharing) (AS-2M)
-- AS-2M Pre-trained+[Fine-tuned](https://drive.google.com/file/d/1fRX_Mgj4sHxV2F6AVfoqXObfgzFMnHRA/view?usp=sharing) (AS-20K)
+We provide several EAT model checkpoints for download:
 
-:warning: Due to the limited amount of AudioSet data we possess compared to other models, we highly **recommend** [pre-training](#pre-training) the EAT model with your own data, which would probably perform better than the given one.
+### 🔹 EAT-base (introduced in paper; for efficient pre-training)
 
-**Update!!!!!** :new:  (**RECOMMEND**)  
-We have introduced two new variants of the EAT pre-training model and their fine-tuned versions, each designed to enhance performance through either extended pre-training epochs or scaling up the model size.  
+- [Pre-trained (10 epochs)](https://drive.google.com/file/d/10pklbY_fKraQUIBizSg1kv4lJXNWxpxl/view?usp=sharing)
+- [Fine-tuned on AS-2M](https://drive.google.com/file/d/1F07zN8N54rXU-szvKUlYaCFMCepc4wHR/view?usp=sharing)
+- [Fine-tuned on AS-20K](https://drive.google.com/file/d/1fRX_Mgj4sHxV2F6AVfoqXObfgzFMnHRA/view?usp=sharing)
 
-Links for model checkpoints:  
-- [EAT-base_epoch30](https://drive.google.com/file/d/19hfzLgHCkyqTOYmHt8dqVa9nm-weBq4f/view?usp=sharing) (pre-training) 
-- [EAT-base_epoch30](https://drive.google.com/file/d/1aCYiQmoZv_Gh1FxnR-CCWpNAp6DIJzn6/view?usp=sharing) (fine-tuning on AS-2M) 
-- [EAT-large_epoch20](https://drive.google.com/file/d/1PEgriRvHsqrtLzlA478VemX7Q0ZGl889/view?usp=sharing) (pre-training)
-- [EAT-large_epoch20](https://drive.google.com/file/d/1b_f_nQAdjM1B6u72OFUtFiUu-4yM2shd/view?usp=sharing) (fine-tuning on AS-2M)  
+### 🔹 Updated & Recommended Versions (with Hugging Face support)
+We now release enhanced versions include extended training or larger backbone designs. They are also available in **[Hugging Face](https://huggingface.co/collections/worstchan/eat-6815b4f1034f5214f9063948)** — allowing direct use for feature extraction or inference via `AutoModel.from_pretrained`.
 
-Performance metrics:  
+- [EAT-base_epoch30 (pre-trained)](https://drive.google.com/file/d/19hfzLgHCkyqTOYmHt8dqVa9nm-weBq4f/view?usp=sharing) | 🤗 HF: *[link to be added]* 
+- [EAT-base_epoch30](https://drive.google.com/file/d/1aCYiQmoZv_Gh1FxnR-CCWpNAp6DIJzn6/view?usp=sharing) (fine-tuned on AS-2M) | 🤗 HF: *[link to be added]* 
+- [EAT-large_epoch20](https://drive.google.com/file/d/1PEgriRvHsqrtLzlA478VemX7Q0ZGl889/view?usp=sharing) (pre-trained) | 🤗 HF: *[link to be added]*
+- [EAT-large_epoch20](https://drive.google.com/file/d/1b_f_nQAdjM1B6u72OFUtFiUu-4yM2shd/view?usp=sharing) (fine-tuned on AS-2M) | 🤗 HF: *[link to be added]* 
+
+> ⚠️ Note: Due to our limited AudioSet subset compared to other models, we **recommend** [pre-training](#pre-training) EAT on your own data for better results.
+
+### 📊 Performance Summary 
 |Model|Backbone|Parameters|Pre-training <br> Epoch|AS-20K <br> mAP(%)|AS-2M <br> mAP(%)|
 |:-:|:-:|:-:|:-:|:-:|:-:|
 |EAT-base|ViT-B|88M|10|40.3 | 48.6|
@@ -129,12 +142,12 @@ Per-class AP can be found under the path `./EAT/ap_log.txt`. You could also refe
 <!-- omit in toc -->
 ## Performance
 Pre-training on AS-2M, EAT gains state-of-the-art (SOTA) performance on several audio and speech classification datasets including AS-20K, AS-2M, ESC-50 and SPC-2.    
-![Alt text](/src/EAT_performance.png)
+![Alt text](./src/EAT_performance.png)
 
 <!-- omit in toc -->
 ## Efficiency
 EAT achieves a total pre-training time reduction of ~15x compared to BEATs and ~10x relative to Audio-MAE. It costs only 10 epochs during EAT's pre-training on AS-2M.    
-![Alt text](/src/EAT_efficiency.png)
+![Alt text](./src/EAT_efficiency.png)
 
 <!-- omit in toc -->
 ## Experiment Logs
@@ -161,11 +174,19 @@ Our codebase is based on the awesome [Audio-MAE](https://github.com/facebookrese
 ## Citation
 If you find our EAT codes and models useful, please cite the following paper:
 ```
-@article{chen2024eat,
-  title={EAT: Self-Supervised Pre-Training with Efficient Audio Transformer},
-  author={Chen, Wenxi and Liang, Yuzhe and Ma, Ziyang and Zheng, Zhisheng and Chen, Xie},
-  journal={arXiv preprint arXiv:2401.03497},
-  year={2024}
+@inproceedings{ijcai2024p421,
+  title     = {EAT: Self-Supervised Pre-Training with Efficient Audio Transformer},
+  author    = {Chen, Wenxi and Liang, Yuzhe and Ma, Ziyang and Zheng, Zhisheng and Chen, Xie},
+  booktitle = {Proceedings of the Thirty-Third International Joint Conference on
+               Artificial Intelligence, {IJCAI-24}},
+  publisher = {International Joint Conferences on Artificial Intelligence Organization},
+  editor    = {Kate Larson},
+  pages     = {3807--3815},
+  year      = {2024},
+  month     = {8},
+  note      = {Main Track},
+  doi       = {10.24963/ijcai.2024/421},
+  url       = {https://doi.org/10.24963/ijcai.2024/421},
 }
 ```
 
