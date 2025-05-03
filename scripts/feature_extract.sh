@@ -2,9 +2,9 @@
 
 export CUDA_VISIBLE_DEVICES=0
 
-FRAMEWORK="huggingface"     # "fairseq" or "huggingface"
-CHECKPOINT_DIR="worstchan/EAT-base_epoch30_finetune_AS2M"  # Path to the checkpoint file ( xxx.pt for fairseq, repo id for huggingface)
-GRANULARITY="all"        # "all", "frame", or "utterance"
+FRAMEWORK="huggingface"  # Options: "fairseq" or "huggingface"
+CHECKPOINT_DIR="worstchan/EAT-base_epoch30_finetune_AS2M"  # HuggingFace repo or Fairseq checkpoint path
+GRANULARITY="all"        # "all" (with CLS), "frame" (w/o CLS), or "utterance" (CLS only)
 
 python EAT/feature_extract/feature_extract.py  \
     --source_file='EAT/feature_extract/test.wav' \
@@ -16,13 +16,12 @@ python EAT/feature_extract/feature_extract.py  \
     --mode='finetune' \
     --framework=$FRAMEWORK \
 
-# For optimal performance, 1024 is recommended for 10-second audio clips. (128 for 1-second)
-# You should adjust the target_length parameter based on the duration and characteristics of your specific audio inputs.
 
-# 3 ways to extract features
-# all: all frame features including the cls token
-# frame: all frame features excluding the cls token
-# utterance: only the cls token feature.
-
-# 2 mode of checkpoints: (EAT) pretrain or (EAT) finetune
-# 2 framework: fairseq or huggingface
+# Notes:
+# - Recommended target_length = 1024 for 10-second clips (512 for 5-second).
+# - Ensure target_length is a multiple of 16 due to CNN encoder constraints.
+# - Choose granularity based on task:
+#     all       → frame-level features incl. CLS
+#     frame     → frame-level features excl. CLS
+#     utterance → only CLS token (utterance-level embedding)
+# - Two modes of checkpoints: (EAT) pretrain or (EAT) finetune.
