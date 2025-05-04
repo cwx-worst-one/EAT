@@ -55,7 +55,7 @@ pip install -r EAT/requirements.txt
 
 
 ## Model Checkpoints
-We provide several EAT model checkpoints for download, including both the original paper version and enhanced variants.
+We provide several checkpoints for download, including both the original paper version and enhanced variants.
 
 
 ### 🔹 EAT-base (introduced in paper; for efficient pre-training)
@@ -78,7 +78,7 @@ These enhanced versions feature extended pre-training or larger backbones.
 | EAT-large (Epoch 20, Fine-tuned on AS-2M) | [Link](https://drive.google.com/file/d/1b_f_nQAdjM1B6u72OFUtFiUu-4yM2shd/view?usp=sharing) | [Link](https://huggingface.co/worstchan/EAT-large_epoch20_finetune_AS2M) |
 
 
-> 🧠 [Browse collection on Hugging Face](https://huggingface.co/collections/worstchan/eat-6815b4f1034f5214f9063948)
+> 🧠 [Browse collection on Hugging Face](https://huggingface.co/collections/worstchan/eat-6815b4f1034f5214f9063948)  
 > ⚠️ Note: Due to our limited AudioSet subset compared to other models, we **recommend** pre-training EAT on your own data for better performance.
 
 
