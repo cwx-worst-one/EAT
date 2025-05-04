@@ -91,14 +91,21 @@ These enhanced versions feature extended pre-training or larger backbones.
 
 
 ## Feature Extraction
-We provide the script for extracting audio features from the last layer of EAT encoder. The features are stored in `.npy` format and the sample rate of the extracted features is ~50Hz. EAT could provide frame-level features and utterance-level features (denoted by the CLS token).  
-To extract latent representations from audio clips, you could use our pre-trained [checkpoint](https://drive.google.com/file/d/19hfzLgHCkyqTOYmHt8dqVa9nm-weBq4f/view?usp=sharing), fine-tuned [checkpoint](https://drive.google.com/file/d/1aCYiQmoZv_Gh1FxnR-CCWpNAp6DIJzn6/view?usp=sharing) or your owns, then please run the script `feature_extract.sh` by:
+We provide a simple script to extract audio features from the last layer of the EAT encoder. You can run feature extraction using either a **Fairseq checkpoint** or a **Hugging Face model**.  
+
+To get started, simply run:
 ```bash
 bash EAT/scripts/feature_extract.sh 
 ``` 
 
+For more detailed instructions, see the [feature extraction guide](./feature_extract/readme.md).
+
+
 ## Data Preparation
-The main dataset in our experiment is [AudioSet](https://research.google.com/audioset/). Regrettably, we are unable to release the data due to copyright restrictions. Data manifest is available at [here](https://drive.google.com/file/d/1LH2C0q3d4zndoR3-oGkVdYYqDCIdxIsm/view?usp=drive_link). We follow the file format in [wav2vec](https://github.com/facebookresearch/fairseq/tree/main/examples/wav2vec) and [data2vec](https://github.com/facebookresearch/fairseq/tree/main/examples/data2vec), where `.tsv` format file is for index while `.lbl` and `.csv` format files are specific for classification task.  You could modify the files for your own database. 
+The main dataset in our experiment is [AudioSet](https://research.google.com/audioset/). Regrettably, we are unable to distribute the original audio files due to copyright restrictions. 
+
+However, you can access our **data manifest** [here](https://drive.google.com/file/d/1LH2C0q3d4zndoR3-oGkVdYYqDCIdxIsm/view?usp=drive_link), which provides metadata and paths necessary for processing. We follow the file format in [wav2vec](https://github.com/facebookresearch/fairseq/tree/main/examples/wav2vec) and [data2vec](https://github.com/facebookresearch/fairseq/tree/main/examples/data2vec), where `.tsv` format file is for index while `.lbl` and `.csv` format files are specific for classification task.  You are free to modify the files to suit your own datasets or experimental needs.
+
 
 ## Pre-Training 
 Our codes are adapted from [Audio-MAE](https://github.com/facebookresearch/AudioMAE) and [data2vec](https://github.com/facebookresearch/fairseq/tree/main/examples/data2vec). We employ `pretraining_AS2M.yaml` as our default pre-training config. To pre-train the EAT model on Audioset, you could run the script `pretraining_AS2M.sh` by:
@@ -107,6 +114,7 @@ bash EAT/scripts/pretraining_AS2M.sh
 ``` 
 If you need to pre-train the EAT model on other datasets where audio lengths are not fixed at 10 seconds, you can refer to the instructions in
 `feature_extract/readme.md`
+
 
 ## Fine-Tuning
 We employ `finetuning.yaml` as our default fine-tuning config. To fine-tune the EAT model in different downstream tasks, you could run the script `finetuning_{task}.sh`, where `{task}` includes `AS20K`, `AS2M`, `ESC50` and `SPCv2`. For example, you can fine-tune EAT on `AS20K` by executing: 
@@ -153,10 +161,12 @@ Per-class AP can be found under the path `./EAT/ap_log.txt`. You could also refe
 Pre-training on AS-2M, EAT gains state-of-the-art (SOTA) performance on several audio and speech classification datasets including AS-20K, AS-2M, ESC-50 and SPC-2.    
 ![Alt text](./src/EAT_performance.png)
 
+
 <!-- omit in toc -->
 ## Efficiency
 EAT achieves a total pre-training time reduction of ~15x compared to BEATs and ~10x relative to Audio-MAE. It costs only 10 epochs during EAT's pre-training on AS-2M.    
 ![Alt text](./src/EAT_efficiency.png)
+
 
 <!-- omit in toc -->
 ## Experiment Logs
@@ -169,6 +179,7 @@ We report the experiment logs using [wandb](https://wandb.ai). We have published
 - [x] update codes and checkpoints for friendly usage
 - [ ] release the docker image
 
+
 ## Acknowledgement
 Our codebase is based on the awesome [Audio-MAE](https://github.com/facebookresearch/AudioMAE) and [data2vec](https://github.com/facebookresearch/fairseq/tree/main/examples/data2vec) repo. 
 
@@ -178,6 +189,7 @@ Our codebase is based on the awesome [Audio-MAE](https://github.com/facebookrese
 |:------|:-----|
 | [Shanghai Jiao Tong University](https://www.seiee.sjtu.edu.cn/) | Researchers; Computing power |
 | [Peng Cheng Laboratory](https://data-starcloud.pcl.ac.cn/) | Researchers; Computing power |
+
 
 <!-- omit in toc -->
 ## Citation
