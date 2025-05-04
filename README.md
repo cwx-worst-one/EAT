@@ -31,7 +31,9 @@ EAT is an audio SSL model with high effectiveness and efficiency during self-sup
 
 
 ## Requirements and Installation
-The minimum environment requirements are `Python >= 3.8` and `PyTorch >= 1.13`. We now support **[Hugging Face integration](https://huggingface.co/collections/worstchan/eat-6815b4f1034f5214f9063948)** — if you're only performing **feature extraction or inference**, you no longer need to install Fairseq!
+The minimum environment requirements are `Python >= 3.8` and `PyTorch >= 1.13`. Please use `pip < 24.1` due to dependency issues.
+
+We now support **[Hugging Face integration](https://huggingface.co/collections/worstchan/eat-6815b4f1034f5214f9063948)** — if you're only performing **feature extraction or inference**, you no longer need to install Fairseq!
 
 
 ### 🟡 For feature extraction or inference only (Hugging Face)

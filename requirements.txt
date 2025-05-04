@@ -1,3 +1,4 @@
+# ⚠️ Please use pip < 24.1 (e.g., pip == 24.0) due to dependency issues.
 h5py==3.10.0
 numpy==1.26.3
 omegaconf==2.0.6
