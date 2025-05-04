@@ -64,14 +64,11 @@ We provide several EAT model checkpoints for download, including both the origin
 - [Fine-tuned on AS-2M](https://drive.google.com/file/d/1F07zN8N54rXU-szvKUlYaCFMCepc4wHR/view?usp=sharing)
 - [Fine-tuned on AS-20K](https://drive.google.com/file/d/1fRX_Mgj4sHxV2F6AVfoqXObfgzFMnHRA/view?usp=sharing)
 
----
 
 ### 🔹 Updated & Recommended Versions
 These enhanced versions feature extended pre-training or larger backbones. 
 - Checkpoints via **Google Drive** are compatible with Fairseq for further pre-training or fine-tuning.  
 - **Hugging Face versions** support direct usage via `AutoModel.from_pretrained` for feature extraction or inference.
-
-> 🧠 [Browse collection on Hugging Face](https://huggingface.co/collections/worstchan/eat-6815b4f1034f5214f9063948)
 
 | Version| 📦 Google Drive| 🤗 Hugging Face|
 |------------| :------------: | :--------: |
@@ -81,9 +78,9 @@ These enhanced versions feature extended pre-training or larger backbones.
 | EAT-large (Epoch 20, Fine-tuned on AS-2M) | [Link](https://drive.google.com/file/d/1b_f_nQAdjM1B6u72OFUtFiUu-4yM2shd/view?usp=sharing) | [Link](https://huggingface.co/worstchan/EAT-large_epoch20_finetune_AS2M) |
 
 
+> 🧠 [Browse collection on Hugging Face](https://huggingface.co/collections/worstchan/eat-6815b4f1034f5214f9063948)
 > ⚠️ Note: Due to our limited AudioSet subset compared to other models, we **recommend** pre-training EAT on your own data for better performance.
 
----
 
 ### 📈 Performance Summary 
 | Model      | Backbone | Params | Pre-train Epochs | AS-20K mAP (%) | AS-2M mAP (%) |
