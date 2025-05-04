@@ -21,8 +21,8 @@
 <!-- omit in toc -->
 ## News 🔥
 - [Update May. 3, 2025] 🎉🎉🎉 EAT now supports **[Hugging Face integration](https://huggingface.co/collections/worstchan/eat-6815b4f1034f5214f9063948)**! You can extract features or run inference **without relying on Fairseq** — try EAT as your new audio encoder today!
-- We release EAT-large (20 epochs) with SOTA performance on AS-2M, AS-20K, ESC-50 and SPC-2. 
-- Checkpoints and code are updated — EAT now seamlessly supports variable-length audio across training, extraction, inference, and evaluation.
+- We release **EAT-large** (20 epochs) with SOTA performance on AS-2M, AS-20K, ESC-50 and SPC-2. 
+- Checkpoints and code are updated — EAT now seamlessly supports **variable-length** audio across training, extraction, inference, and evaluation.
 
 
 <!-- omit in toc -->
@@ -55,7 +55,8 @@ pip install -r EAT/requirements.txt
 
 
 ## Model Checkpoints
-We provide several EAT model checkpoints for download:
+We provide several EAT model checkpoints for download, including both the original paper version and enhanced variants.
+
 
 ### 🔹 EAT-base (introduced in paper; for efficient pre-training)
 
@@ -63,18 +64,29 @@ We provide several EAT model checkpoints for download:
 - [Fine-tuned on AS-2M](https://drive.google.com/file/d/1F07zN8N54rXU-szvKUlYaCFMCepc4wHR/view?usp=sharing)
 - [Fine-tuned on AS-20K](https://drive.google.com/file/d/1fRX_Mgj4sHxV2F6AVfoqXObfgzFMnHRA/view?usp=sharing)
 
-### 🔹 Updated & Recommended Versions (with Hugging Face support)
-We now release enhanced versions include extended training or larger backbone designs. They are also available in **[Hugging Face](https://huggingface.co/collections/worstchan/eat-6815b4f1034f5214f9063948)** — allowing direct use for feature extraction or inference via `AutoModel.from_pretrained`.
+---
 
-- [EAT-base_epoch30 (pre-trained)](https://drive.google.com/file/d/19hfzLgHCkyqTOYmHt8dqVa9nm-weBq4f/view?usp=sharing) | 🤗 HF: *[link to be added]* 
-- [EAT-base_epoch30](https://drive.google.com/file/d/1aCYiQmoZv_Gh1FxnR-CCWpNAp6DIJzn6/view?usp=sharing) (fine-tuned on AS-2M) | 🤗 HF: *[link to be added]* 
-- [EAT-large_epoch20](https://drive.google.com/file/d/1PEgriRvHsqrtLzlA478VemX7Q0ZGl889/view?usp=sharing) (pre-trained) | 🤗 HF: *[link to be added]*
-- [EAT-large_epoch20](https://drive.google.com/file/d/1b_f_nQAdjM1B6u72OFUtFiUu-4yM2shd/view?usp=sharing) (fine-tuned on AS-2M) | 🤗 HF: *[link to be added]* 
+### 🔹 Updated & Recommended Versions
+These enhanced versions feature extended pre-training or larger backbones. 
+- Checkpoints via **Google Drive** are compatible with Fairseq for further pre-training or fine-tuning.  
+- **Hugging Face versions** support direct usage via `AutoModel.from_pretrained` for feature extraction or inference.
 
-> ⚠️ Note: Due to our limited AudioSet subset compared to other models, we **recommend** [pre-training](#pre-training) EAT on your own data for better results.
+> 🧠 [Browse collection on Hugging Face](https://huggingface.co/collections/worstchan/eat-6815b4f1034f5214f9063948)
 
-### 📊 Performance Summary 
-|Model|Backbone|Parameters|Pre-training <br> Epoch|AS-20K <br> mAP(%)|AS-2M <br> mAP(%)|
+| Version| 📦 Google Drive| 🤗 Hugging Face|
+|------------| :------------: | :--------: |
+| EAT-base (Epoch 30, Pre-trained)| [Link](https://drive.google.com/file/d/19hfzLgHCkyqTOYmHt8dqVa9nm-weBq4f/view?usp=sharing) | [Link](https://huggingface.co/worstchan/EAT-base_epoch30_pretrain)       |
+| EAT-base (Epoch 30, Fine-tuned on AS-2M)| [Link](https://drive.google.com/file/d/1aCYiQmoZv_Gh1FxnR-CCWpNAp6DIJzn6/view?usp=sharing) | [Link](https://huggingface.co/worstchan/EAT-base_epoch30_finetune_AS2M)  |
+| EAT-large (Epoch 20, Pre-trained)| [Link](https://drive.google.com/file/d/1PEgriRvHsqrtLzlA478VemX7Q0ZGl889/view?usp=sharing) | [Link](https://huggingface.co/worstchan/EAT-large_epoch20_pretrain)      |
+| EAT-large (Epoch 20, Fine-tuned on AS-2M) | [Link](https://drive.google.com/file/d/1b_f_nQAdjM1B6u72OFUtFiUu-4yM2shd/view?usp=sharing) | [Link](https://huggingface.co/worstchan/EAT-large_epoch20_finetune_AS2M) |
+
+
+> ⚠️ Note: Due to our limited AudioSet subset compared to other models, we **recommend** pre-training EAT on your own data for better performance.
+
+---
+
+### 📈 Performance Summary 
+| Model      | Backbone | Params | Pre-train Epochs | AS-20K mAP (%) | AS-2M mAP (%) |
 |:-:|:-:|:-:|:-:|:-:|:-:|
 |EAT-base|ViT-B|88M|10|40.3 | 48.6|
 |EAT-base|ViT-B|88M|30|41.3 | 48.9|
