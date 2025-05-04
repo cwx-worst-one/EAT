@@ -108,23 +108,24 @@ However, you can access our **data manifest** [here](https://drive.google.com/fi
 
 
 ## Pre-Training 
-Our codes are adapted from [Audio-MAE](https://github.com/facebookresearch/AudioMAE) and [data2vec](https://github.com/facebookresearch/fairseq/tree/main/examples/data2vec). We employ `pretraining_AS2M.yaml` as our default pre-training config. To pre-train the EAT model on Audioset, you could run the script `pretraining_AS2M.sh` by:
+Our codes are adapted from [Audio-MAE](https://github.com/facebookresearch/AudioMAE) and [data2vec](https://github.com/facebookresearch/fairseq/tree/main/examples/data2vec). The default configuration file for pre-training is `pretraining_AS2M.yaml`. To pre-train the EAT model on AudioSet, simply run the following script:
 ```bash
 bash EAT/scripts/pretraining_AS2M.sh 
 ``` 
-If you need to pre-train the EAT model on other datasets where audio lengths are not fixed at 10 seconds, you can refer to the instructions in
-`feature_extract/readme.md`
+If you wish to pre-train the model on a different dataset where audio clips are **not fixed to 10 seconds**, please refer to the [feature extraction guide](./feature_extract/readme.md) for detailed instructions on how to adjust the target length accordingly.
 
 
 ## Fine-Tuning
-We employ `finetuning.yaml` as our default fine-tuning config. To fine-tune the EAT model in different downstream tasks, you could run the script `finetuning_{task}.sh`, where `{task}` includes `AS20K`, `AS2M`, `ESC50` and `SPCv2`. For example, you can fine-tune EAT on `AS20K` by executing: 
+We use `finetuning.yaml` as the default configuration file for fine-tuning. To fine-tune the EAT model in different downstream tasks, you could run the script `finetuning_{task}.sh`, where `{task}` refers to one of the supported datasets, including `AS20K`, `AS2M`, `ESC50`, and `SPCv2`. For example, you can fine-tune EAT on `AS20K` by executing: 
 ```bash
 bash EAT/scripts/finetuning_AS20K.sh
 ``` 
 
+
 ## Inference and Evaluation
-For inference on single AudioSet audio clip with fine-tuned models, you could use our EAT checkpoints fine-tuning on [AS-2M](https://drive.google.com/file/d/1F07zN8N54rXU-szvKUlYaCFMCepc4wHR/view?usp=sharing) (recommended) or [AS-20K](https://drive.google.com/file/d/1fRX_Mgj4sHxV2F6AVfoqXObfgzFMnHRA/view?usp=sharing)
-and run the script `inference.sh` by: 
+We support both local inference and loading models via Hugging Face. To run inference on a single AudioSet audio clip using fine-tuned EAT models, you may use our checkpoint fine-tuned on [AS-2M](https://drive.google.com/file/d/1F07zN8N54rXU-szvKUlYaCFMCepc4wHR/view?usp=sharing) (recommended) or [AS-20K](https://drive.google.com/file/d/1fRX_Mgj4sHxV2F6AVfoqXObfgzFMnHRA/view?usp=sharing). Alternatively, you can load the models directly from Hugging Face.
+
+To start inference, run: 
 ```bash
 bash EAT/scripts/inference.sh 
 ``` 
@@ -147,13 +148,14 @@ Hi-hat                         0.196
 Mallet percussion              0.170
 **************************************************
 ```
-  
-For comprehensive evaluation on the entire AudioSet eval dataset with fine-tuned EAT models, you could run the evaluation script `eval.sh` by:
+
+To evaluate on the full AudioSet evaluation set, use:
+
 ```bash
 bash EAT/scripts/eval.sh 
 ```
-This script will give you the evaluation value of mAP on AudioSet test dataset. 
-Per-class AP can be found under the path `./EAT/ap_log.txt`. You could also refer to our results of finetuned EAT models on evaluation set of Audioset under the path `./EAT/results`.
+
+This will report the evaluation value of mAP on the test set. Per-class AP scores are saved to `./EAT/ap_log.txt`. You could also refer to our results of finetuned EAT models on evaluation set of Audioset in `./EAT/results`.
 
 
 <!-- omit in toc -->
@@ -164,7 +166,7 @@ Pre-training on AS-2M, EAT gains state-of-the-art (SOTA) performance on several 
 
 <!-- omit in toc -->
 ## Efficiency
-EAT achieves a total pre-training time reduction of ~15x compared to BEATs and ~10x relative to Audio-MAE. It costs only 10 epochs during EAT's pre-training on AS-2M.    
+EAT achieves a total pre-training time reduction of ~15x compared to BEATs and ~10x relative to Audio-MAE. The full pre-training on AS-2M requires only 10 epochs.    
 ![Alt text](./src/EAT_efficiency.png)
 
 
@@ -175,9 +177,10 @@ We report the experiment logs using [wandb](https://wandb.ai). We have published
 
 <!-- omit in toc -->
 ## TODO 
-- [x] release the final EAT large
-- [x] update codes and checkpoints for friendly usage
-- [ ] release the docker image
+- [x] Release the final EAT large
+- [x] Update codes and checkpoints for friendly usage
+- [x] Provide model support on Hugging Face
+- [ ] Release the Docker image
 
 
 ## Acknowledgement
