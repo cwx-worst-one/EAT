@@ -4,109 +4,114 @@ import numpy as np
 import soundfile as sf
 
 import torch
-import torch.nn.functional as F
-import fairseq
 import torchaudio
 
-# global normalization for AudioSet as default (norm_mean=-4.268 && norm_std=4.569)
+
+# ===== Argument Parser =====
 def get_parser():
-    parser = argparse.ArgumentParser(
-        description="extract EAT features for downstream tasks"
-    )
-    parser.add_argument('--source_file', help='location of source wav files', required=True)
-    parser.add_argument('--target_file', help='location of target npy files', required=True)
-    parser.add_argument('--model_dir', type=str, help='pretrained model', required=True)
-    parser.add_argument('--checkpoint_dir', type=str, help='checkpoint for pre-trained model', required=True)
-    parser.add_argument('--granularity', type=str, choices=['all', 'frame', 'utterance'], required=True, 
-                        help='Specifies the granularity of features to use: "all" for all frame features including the cls token, \
-                        "frame" for all frame features excluding the cls token, and "utterance" for only the cls token feature.')
-    parser.add_argument('--target_length', type=int, help='the target length of Mel spectrogram in time dimension', required=True)
-    parser.add_argument('--norm_mean', type=float, help='mean value for normalization', default=-4.268)
-    parser.add_argument('--norm_std', type=float, help='standard deviation for normalization', default=4.569)
-    parser.add_argument('--mode', type=str, choices=['pretrain', 'finetune'], required=True, 
-                        help='Specifies the mode of the model: "pretrain" for EAT pre-training, "finetune" for EAT fine-tuning.')
+    parser = argparse.ArgumentParser(description="Extract EAT features for downstream tasks")
+    parser.add_argument('--source_file', required=True, help='Path to input .wav file')
+    parser.add_argument('--target_file', required=True, help='Path to output .npy file')
+    parser.add_argument('--model_dir', required=True, help='Directory containing the model definition (not needed for HF framework)')
+    parser.add_argument('--checkpoint_dir', required=True, help='Checkpoint path or HF model ID')
+    parser.add_argument('--granularity', required=True, choices=['all', 'frame', 'utterance'],
+                        help='Feature type: "all" (including CLS), "frame" (excluding CLS), or "utterance" (CLS only)')
+    parser.add_argument('--target_length', required=True, type=int, help='Target length of mel-spectrogram')
+    parser.add_argument('--norm_mean', type=float, default=-4.268, help='Normalization mean')
+    parser.add_argument('--norm_std', type=float, default=4.569, help='Normalization std')
+    parser.add_argument('--mode', required=True, choices=['pretrain', 'finetune'], help='Model mode')
+    parser.add_argument('--framework', required=True, choices=['fairseq', 'huggingface'], help='Framework to use')
     return parser
 
 @dataclass
 class UserDirModule:
     user_dir: str
 
-def main():
-    parser = get_parser()
-    args = parser.parse_args()
-    print(args)
+# ===== Model Loader =====
+def load_model(args):
+    if args.framework == "huggingface":
+        from transformers import AutoModel
+        model = AutoModel.from_pretrained(args.checkpoint_dir, trust_remote_code=True).eval().cuda()
+    elif args.framework == "fairseq":
+        import fairseq
+        model_path = UserDirModule(args.model_dir)
+        fairseq.utils.import_user_module(model_path)
+        models, cfg, task = fairseq.checkpoint_utils.load_model_ensemble_and_task([args.checkpoint_dir])
+        model = models[0]
+        if args.mode == "finetune":
+            model = model.model
+        model.eval().cuda()
+    else:
+        raise ValueError(f"Unsupported framework: {args.framework}")
+    return model
 
-    source_file = args.source_file
-    target_file = args.target_file
-    model_dir = args.model_dir
-    checkpoint_dir = args.checkpoint_dir
-    granularity = args.granularity
-    target_length = args.target_length
-    norm_mean = args.norm_mean
-    norm_std = args.norm_std
-    mode = args.mode
 
-    model_path = UserDirModule(model_dir)
-    fairseq.utils.import_user_module(model_path)
-    model, cfg, task = fairseq.checkpoint_utils.load_model_ensemble_and_task([checkpoint_dir])
-    model = model[0]
-    model.eval()
-    model.cuda()
+# ===== Feature Extraction For Two Frameworks =====
+def extract_feature_tensor(model, x, framework):
+    if framework == "huggingface":
+        return model.extract_features(x)
+    elif framework == "fairseq":
+        return model.extract_features(x, padding_mask=None, mask=False, remove_extra_tokens=False)['x']
+    else:
+        raise ValueError(f"Unsupported framework: {framework}")
 
-    assert source_file.endswith('.wav'), "the standard format of file should be '.wav' "
-    wav, sr = sf.read(source_file)
-    channel = sf.info(source_file).channels
-    source = torch.from_numpy(wav).float().cuda()
-    if sr == 16e3:
-        print("Original sample rate is already 16kHz in file {}".format(source_file))
-    else: 
-        source = torchaudio.functional.resample(source, orig_freq=sr, new_freq=16000).float().cuda()
-        print("It is resampled to 16kHz in file {}".format(source_file))
-        
-    assert channel == 1, "Channel should be 1, but got {} in file {}".format(channel, source_file)
-    
-    source = source - source.mean()
-    source = source.unsqueeze(dim=0)
-    source = torchaudio.compliance.kaldi.fbank(source, htk_compat=True, sample_frequency=16000, use_energy=False,
-        window_type='hanning', num_mel_bins=128, dither=0.0, frame_shift=10).unsqueeze(dim=0)
-    
-    n_frames = source.shape[1]
-    diff = target_length - n_frames
-    if diff > 0:
-        m = torch.nn.ZeroPad2d((0, 0, 0, diff)) 
-        source = m(source)
-        
-    elif diff < 0:
-        source = source[:,0:target_length, :]
-                
-    source = (source - norm_mean) / (norm_std * 2)
-    
-    if mode == "finetune":
-        model = model.model
-        
+
+# ===== Feature Extraction Pipeline =====
+def extract_features(args):
+    assert args.source_file.endswith('.wav'), "Source file must be a .wav file"
+
+    # Load waveform and resample to 16kHz if necessary
+    wav, sr = sf.read(args.source_file)
+    assert sf.info(args.source_file).channels == 1, "Only mono-channel audio is supported"
+    waveform = torch.tensor(wav).float().cuda()
+    if sr != 16000:
+        waveform = torchaudio.functional.resample(waveform, sr, 16000)
+        print(f"Resampled to 16kHz: {args.source_file}")
+
+    # Normalize and convert to mel-spectrogram
+    waveform = waveform - waveform.mean()
+    mel = torchaudio.compliance.kaldi.fbank(
+        waveform.unsqueeze(0),
+        htk_compat=True,
+        sample_frequency=16000,
+        use_energy=False,
+        window_type='hanning',
+        num_mel_bins=128,
+        dither=0.0,
+        frame_shift=10
+    ).unsqueeze(0)
+
+    # Pad or truncate to target length
+    n_frames = mel.shape[1]
+    if n_frames < args.target_length:
+        mel = torch.nn.ZeroPad2d((0, 0, 0, args.target_length - n_frames))(mel)
+    elif n_frames > args.target_length:
+        mel = mel[:, :args.target_length, :]
+
+    mel = (mel - args.norm_mean) / (args.norm_std * 2)
+    mel = mel.unsqueeze(0).cuda()  # shape: [1, 1, T, F]
+
+    model = load_model(args)
+
     with torch.no_grad():
         try:
-            source = source.unsqueeze(dim=0) #btz=1
-            
-            if granularity == 'all':
-                feats = model.extract_features(source, padding_mask=None,mask=False, remove_extra_tokens=False)
-                feats = feats['x'].squeeze(0).cpu().numpy()
-            elif granularity == 'frame':
-                feats = model.extract_features(source, padding_mask=None,mask=False, remove_extra_tokens=True)
-                feats = feats['x'].squeeze(0).cpu().numpy()
-            elif granularity == 'utterance':
-                feats = model.extract_features(source, padding_mask=None,mask=False, remove_extra_tokens=False)
-                feats = feats['x']
-                feats = feats[:, 0].squeeze(0).cpu().numpy()
-            else:
-                raise ValueError("Unknown granularity: {}".format(args.granularity))
-            print(feats.shape)
-            np.save(target_file, feats)
-            print("Successfully saved")
-        except:
-            print("Error in extracting features from {}".format(source_file))
-            Exception("Error in extracting features from {}".format(source_file))
+            result = extract_feature_tensor(model, mel, args.framework)
 
+            if args.granularity == 'frame':
+                result = result[:, 1:, :]     # remove CLS token
+            elif args.granularity == 'utterance':
+                result = result[:, 0]         # keep only CLS token
 
+            result = result.squeeze(0).cpu().numpy()
+            np.save(args.target_file, result)
+            print(f"Feature shape: {result.shape}")
+            print(f"Saved to: {args.target_file}")
+
+        except Exception as e:
+            print(f"Feature extraction failed: {e}")
+            raise
+
+# ===== Entry =====
 if __name__ == '__main__':
-    main()
+    args = get_parser().parse_args()
+    extract_features(args)

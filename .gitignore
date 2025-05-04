@@ -1,2 +1,4 @@
 .vscode/
-
+__pycache__/
+debug/
+easy_loader/

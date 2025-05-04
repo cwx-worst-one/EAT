@@ -1,112 +1,109 @@
 import argparse
-from dataclasses import dataclass
-import numpy as np
 import soundfile as sf
-
 import torch
 import torch.nn.functional as F
-import fairseq
 import torchaudio
 import csv
+from dataclasses import dataclass
+from transformers import AutoModel
 
-# global normalization for AudioSet as default (norm_mean=-4.268 && norm_std=4.569)
+# ===== Argument Parser =====
 def get_parser():
-    parser = argparse.ArgumentParser(
-        description="use fine-tuned EAT for inference in downstream tasks"
-    )
-    parser.add_argument('--source_file', help='location of source wav files', required=True)
-    parser.add_argument('--label_file', help='location of label files', required=True)
-    parser.add_argument('--model_dir', type=str, help='pretrained model', required=True)
-    parser.add_argument('--checkpoint_dir', type=str, help='checkpoint for fine-tuned model', required=True)
-    parser.add_argument('--target_length', type=int, help='the target length of Mel spectrogram in time dimension', required=True)
-    parser.add_argument('--top_k_prediction', type=int, help='the number of top k classes prediction in inference', required=True)
-    parser.add_argument('--norm_mean', type=float, help='mean value for normalization', default=-4.268)
-    parser.add_argument('--norm_std', type=float, help='standard deviation for normalization', default=4.569)
-
+    parser = argparse.ArgumentParser(description="Use fine-tuned EAT for acoustic event classification")
+    parser.add_argument('--source_file', required=True, help='Path to input .wav file')
+    parser.add_argument('--label_file', required=True, help='Path to label CSV file')
+    parser.add_argument('--model_dir', required=True, help='Model definition directory (not needed for HF framework)')
+    parser.add_argument('--checkpoint_dir', required=True, help='Checkpoint path or HF model ID')
+    parser.add_argument('--target_length', type=int, required=True, help='Target mel length (time dimension)')
+    parser.add_argument('--top_k_prediction', type=int, required=True, help='Top-k predicted labels')
+    parser.add_argument('--norm_mean', type=float, default=-4.268, help='Normalization mean')
+    parser.add_argument('--norm_std', type=float, default=4.569, help='Normalization std')
+    parser.add_argument('--framework', required=True, choices=['fairseq', 'huggingface'], help='Model framework')
     return parser
 
+
+# ===== Label Loader =====
 def build_dictionary(label_path):
     vocab = {}
-    with open(label_path, 'r') as file:
-        reader = csv.reader(file)
+    with open(label_path, 'r') as f:
+        reader = csv.reader(f)
         for row in reader:
-            index = int(row[0])
-            label = row[2]
+            index, label = int(row[0]), row[2]
             vocab[index] = label
     return vocab
 
 
+# ===== Fairseq Helper =====
 @dataclass
 class UserDirModule:
     user_dir: str
-    
 
 
+# ===== Model Loader =====
+def load_model(args):
+    if args.framework == 'huggingface':
+        model = AutoModel.from_pretrained(args.checkpoint_dir, trust_remote_code=True).eval().cuda()
+    elif args.framework == 'fairseq':
+        import fairseq
+        model_path = UserDirModule(args.model_dir)
+        fairseq.utils.import_user_module(model_path)
+        model, _, _ = fairseq.checkpoint_utils.load_model_ensemble_and_task([args.checkpoint_dir])
+        model = model[0].eval().cuda()
+    else:
+        raise ValueError(f"Unsupported framework: {args.framework}")
+    return model
+
+
+# ===== Audio Preprocessing =====
+def preprocess_audio(path, target_length, norm_mean, norm_std):
+    assert path.endswith('.wav'), "Input must be a .wav file"
+    wav, sr = sf.read(path)
+    assert sf.info(path).channels == 1, f"Expected mono audio, got {sf.info(path).channels}"
+
+    wav = torch.tensor(wav).float()
+    if sr != 16000:
+        wav = torchaudio.functional.resample(wav, sr, 16000)
+    wav = wav - wav.mean()
+
+    mel = torchaudio.compliance.kaldi.fbank(
+        wav.unsqueeze(0), htk_compat=True, sample_frequency=16000,
+        use_energy=False, window_type='hanning', num_mel_bins=128,
+        dither=0.0, frame_shift=10
+    ).unsqueeze(0)
+
+    # pad or truncate
+    n_frames = mel.shape[1]
+    if n_frames < target_length:
+        mel = torch.nn.ZeroPad2d((0, 0, 0, target_length - n_frames))(mel)
+    elif n_frames > target_length:
+        mel = mel[:, :target_length, :]
+
+    mel = (mel - norm_mean) / (norm_std * 2)
+    return mel.unsqueeze(0).cuda()  # shape [1, 1, T, F]
+
+
+# ===== Main Inference =====
 def main():
-    parser = get_parser()
-    args = parser.parse_args()
-    print(args)
+    args = get_parser().parse_args()
 
-    source_file = args.source_file
-    label_file = args.label_file
-    model_dir = args.model_dir
-    checkpoint_dir = args.checkpoint_dir
-    target_length = args.target_length
-    top_k_prediction = args.top_k_prediction
-    norm_mean = args.norm_mean
-    norm_std = args.norm_std
+    model = load_model(args)
+    vocab = build_dictionary(args.label_file)
+    mel = preprocess_audio(args.source_file, args.target_length, args.norm_mean, args.norm_std)
 
-    vocab = build_dictionary(label_file)
-    model_path = UserDirModule(model_dir)
-    fairseq.utils.import_user_module(model_path)
-    model, cfg, task = fairseq.checkpoint_utils.load_model_ensemble_and_task([checkpoint_dir])
-    model = model[0]
-    model.eval()
-    model.cuda()
-
-    assert source_file.endswith('.wav'), "the standard format of file should be '.wav' "
-    wav, sr = sf.read(source_file)
-    channel = sf.info(source_file).channels
-    source = torch.from_numpy(wav).float().cuda()
-    if sr == 16e3:
-        print("Original sample rate is already 16kHz in file {}".format(source_file))
-    else: 
-        source = torchaudio.functional.resample(source, orig_freq=sr, new_freq=16000).float().cuda()
-        print("It is resampled to 16kHz in file {}".format(source_file))
-        
-    assert channel == 1, "Channel should be 1, but got {} in file {}".format(channel, source_file)
-    
-    source = source - source.mean()
-    source = source.unsqueeze(dim=0)
-    source = torchaudio.compliance.kaldi.fbank(source, htk_compat=True, sample_frequency=16000, use_energy=False,
-        window_type='hanning', num_mel_bins=128, dither=0.0, frame_shift=10).unsqueeze(dim=0)
-    
-    n_frames = source.shape[1]
-    diff = target_length - n_frames
-    if diff > 0:
-        m = torch.nn.ZeroPad2d((0, 0, 0, diff)) 
-        source = m(source)
-        
-    elif diff < 0:
-        source = source[:,0:target_length, :]
-                
-    source = (source - norm_mean) / (norm_std * 2)
-    
     with torch.no_grad():
         try:
-            source = source.unsqueeze(dim=0) #btz=1
-            pred = model(source)
-            pred = torch.sigmoid(pred)
-            topk_values, topk_indices = torch.topk(pred, top_k_prediction)
-            inference = {vocab[index.item()]: value.item() for index, value in zip(topk_indices[0], topk_values[0])}
-            print("************ Acoustic Event Inference ************")
-            print("LABEL" + ' ' * 26 + "PREDICTION")
-            for label,res in inference.items():
-                print("{:<30s} {:.3f}".format(label,res))
-            print("**************************************************")
-        except:
-            print("Error in inference from {}".format(source_file))
-            Exception("Error in inference from {}".format(source_file))
+            logits = model(mel)
+            probs = torch.sigmoid(logits)
+            values, indices = torch.topk(probs, args.top_k_prediction)
+
+            print("\n************ Acoustic Event Inference ************")
+            print("LABEL".ljust(30) + "PREDICTION")
+            for i, v in zip(indices[0], values[0]):
+                print(f"{vocab[i.item()]:<30} {v.item():.3f}")
+            print("**************************************************\n")
+        except Exception as e:
+            print(f"Inference failed: {e}")
+            raise
 
 
 if __name__ == '__main__':

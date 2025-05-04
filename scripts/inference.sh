@@ -2,14 +2,20 @@
 
 export CUDA_VISIBLE_DEVICES=0
 
+FRAMEWORK="huggingface"  # Options: "fairseq" or "huggingface"
+CHECKPOINT_DIR="worstchan/EAT-base_epoch30_finetune_AS2M"  # HuggingFace repo or Fairseq checkpoint path
+
+
 python EAT/inference/inference.py  \
     --source_file='EAT/inference/test.wav' \
     --label_file='EAT/inference/labels.csv' \
     --model_dir='EAT' \
-    --checkpoint_dir='/hpc_stor03/sjtu_home/wenxi.chen/model_ckpt/EAT/EAT_finetuned_AS2M.pt' \
+    --checkpoint_dir=$CHECKPOINT_DIR \
     --target_length=1024 \
     --top_k_prediction=12 \
+    --framework=$FRAMEWORK \
 
-# For optimal performance, 1024 is recommended for 10-second audio clips. (128 for 1-second)
-# However, you should adjust the target_length parameter based on the duration and characteristics of your specific audio inputs.
-# EAT-finetuned could make inference well even given truncated audio clips.
+
+# Notes:
+# - Recommended target_length = 1024 for 10-second audio (100Hz mel-spectrogram).
+# - EAT can still perform robust inference on clips with different lengths, though performance may vary.
