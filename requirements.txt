@@ -10,4 +10,4 @@ torch==2.1.2
 torchaudio==2.1.2
 torchsummary==1.5.1
 tensorboardX==2.6.2.2
-transformers
+transformers==4.51.3
