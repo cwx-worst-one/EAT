@@ -199,22 +199,15 @@ Our codebase is based on the awesome [Audio-MAE](https://github.com/facebookrese
 <!-- omit in toc -->
 ## Citation
 If you find our EAT codes and models useful, please cite the following paper:
-```
-@inproceedings{ijcai2024p421,
-  title     = {EAT: Self-Supervised Pre-Training with Efficient Audio Transformer},
-  author    = {Chen, Wenxi and Liang, Yuzhe and Ma, Ziyang and Zheng, Zhisheng and Chen, Xie},
-  booktitle = {Proceedings of the Thirty-Third International Joint Conference on
-               Artificial Intelligence, {IJCAI-24}},
-  publisher = {International Joint Conferences on Artificial Intelligence Organization},
-  editor    = {Kate Larson},
-  pages     = {3807--3815},
-  year      = {2024},
-  month     = {8},
-  note      = {Main Track},
-  doi       = {10.24963/ijcai.2024/421},
-  url       = {https://doi.org/10.24963/ijcai.2024/421},
+```bibtex
+@inproceedings{chen2024eat,
+  title={{EAT}: Self-Supervised Pre-Training with Efficient Audio Transformer},
+  author={Chen, Wenxi and Liang, Yuzhe and Ma, Ziyang and Zheng, Zhisheng and Chen, Xie},
+  booktitle={IJCAI},
+  year={2024}
 }
 ```
+
 
 <!-- omit in toc -->
 
